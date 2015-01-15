@@ -1,0 +1,180 @@
+\chapter{Grammaires} % (fold)
+\label{cha:grammaires}
+
+
+\section{Comment définir un langage} % (fold)
+\label{sec:comment_d_finir_un_langage}
+
+\begin{itemize}
+	\item On peut définir un langage par une phrase en Français.
+	
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+
+	$\mathcal{L}_p$ est le langage de tous les mots de longueur pair sur un l'alphabet $\{a,b\}$\\
+
+	% paragraph exemple (end)
+
+
+	\item Si le langage est fini, on peut donner, énumérer tous ses éléments(Définition en extension).
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+
+	$A=\{\epsilon, a, bb, abab\}$\\
+	
+	% paragraph exemple (end)
+
+
+	\item Un langage peut être défini par une propriété caractéristique de ses mots(Définition en extension).
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+
+	$\mathcal{L}_p = \{w \in \{a,b\}^* \mid \forall n \in \mathbb{N}, \left|w\right|=2*n\}$\\
+	
+	% paragraph exemple (end)
+
+
+	\item Un langage peut être défini à partir d'un autre langage par des opérations ensemblistes tels que Union, Intersection, Différence, Complémentation, Étoile, ...\\
+
+
+	\item Un langage peut se définir de manière opérationnelle en donnant un algorithme de décision (fonction booléenne), qui prend en entré un mot quelconque et indique si le mot fait parti ou non du langage. La notion d'automate donne un formalisme opérationnel pour décider de l'appartenance d'un mot à un langage (reconnaître, accepter un mot).
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+
+	Est ce que un mot $w \in \mathcal(L)_p$. On peut écrire un algorithme qui compte le nombre de caractères du mot $w$ et vérifie si le résultat est paire ou on se contente d'un automate à 2 états qui compte le nombre de symbole modulo 2.\\
+	
+	% paragraph exemple (end)
+
+
+	\item On peut donner un procéder de génération de l'ensemble des mots du langage. La notion de grammaire est un formalisme qui permet de générer, engendrer l'ensemble des mots d'un langage.\\
+
+	\paragraph{Exemples} % (fold)
+	\label{par:exemples}
+
+	\begin{itemize}
+		\item On peut définir indirectement le langage $\mathcal{L}_p$ avec les règles suivantes :\\
+		$\epsilon \in \mathcal{L}_p$.\\
+		Si un mot $w \in \mathcal{L}_p$, alors $aaw \in \mathcal{L}_p$, $baw \in \mathcal{L}_p$, $abw \in \mathcal{L}_p$ et $bbw \in \mathcal{L}_p$.
+
+		\item Soit $\mathcal{A}$ un langage défini sur l'alphabet $\Sigma = \{a,b\}$, on peut avoir :\\
+		$\epsilon \in \mathcal{A}$.\\
+		Si le mot $w \in \mathcal{A}$ alors $awb \in \mathcal{A}$.
+		$\mathcal{A} = \{w \in \{a,b\} \mid \exists \mathbb{N}, w=a^nb^n$
+	\end{itemize}
+
+	% paragraph exemples (end)
+
+
+\end{itemize}
+
+% section comment_d_finir_un_langage (end)
+
+
+\section{Grammaire formelle} % (fold)
+\label{sec:grammaire_formelle}
+
+Une grammaire est un ensemble de règles qui permettent de produire, générer, engendre, les mots d'un langage.
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Une grammaire est un quadruplet $(\Sigma,N,P,S)$ où :
+
+\begin{itemize}
+	\item $\Sigma$ est un alphabet, un ensemble fini de symboles terminaux.
+	\item $N$ est un ensemble fini de symboles non terminaux, on a $N$ et $\Sigma$ disjoints.
+	\item $P$ est un ensemble fini de règles de production.
+	\item $S \in N$ est l'axiome, ou le symbole initial.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+Si $\alpha \rightarrow \beta_1$ et $\alpha \rightarrow \beta_2$ sont 2 règles de production, on peut écrire de manière plus concise les 2 règles sous la forme $a \rightarrow \beta_1 \mid \beta_2$.
+
+% paragraph remarque (end)
+
+
+\paragraph{Exemples} % (fold)
+\label{par:exemples}
+
+\begin{itemize}
+	\item Soit la grammaire suivante, $(\{a,b\},\{S\},\{S \rightarrow\ aaS, S \rightarrow abS, S \rightarrow baS, S \rightarrow bbS, S \rightarrow \epsilon\},S)$ est une grammaire qui engendre le langage $\mathcal{L}_p$.
+
+	\item La grammaire suivante, $(\{a,b\},\{S,A,B\},\{S \rightarrow A \mid B, A\rightarrow aA \mid a, B \rightarrow bB\mid b\},S)$, a 6 règles de productions et est un langage non vide dont les mots n'ont que des $a$ ou que des $b$.
+\end{itemize}
+
+% paragraph exemples (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Soient la grammaire $G = (\Sigma,N,P,S)$ et $(\alpha,\beta) \in (\Sigma \cup N)^*$, on a :
+
+\begin{itemize}
+	\item $\beta$ dérive en une étape de $\alpha$, noté $\alpha \Rightarrow \beta$ s'il existe $x \rightarrow y \in P$ et s'il existe $(u,v) \in (\Sigma \cup N)^*$ tel que :\\
+	$\alpha = uxv$ et $\beta = uyv$
+
+	\item $\alpha_k$ dérive de $\alpha_0$ en k étapes, noté $\alpha_0 \Rightarrow^k \alpha_k$ s'il existe $(\alpha_1,\alpha_2,...,\alpha_(k-1)$ tel que quelque soit $i < k$, $\alpha_{i+1}$ dérive en une étape de $\alpha_i$.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit la grammaire suivante $(\{a,b\},\{S,A,B\},\{S \rightarrow A \mid B, A\rightarrow aA \mid a, B \rightarrow bB\mid b\},S)$.\\
+Le mot $aAabASSABba$ dérive en une étape de $aAAbASSABba$, vue que l'on peut prendre $u=aA$, $x=A$, $v=bASSABba$ et $y=a$.\\
+Le mot $aaa$ est dérivé en 4 étapes de $S$, grâce à la décomposition suivante :\\
+$S \Rightarrow A$, $A \Rightarrow aA$, $aA \Rightarrow aaA$, $aaA \Rightarrow aaa$, on peut donc écrire $S \Rightarrow^4 aaa$.
+
+% paragraph exemple (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+On note $\Rightarrow^*$, la clôture réflexive transitive de la relation $\Rightarrow$. $\beta$ dérive de $\alpha$, si $\alpha \Rightarrow^* \beta$ c'est-à-dire qu'il existe $k \in \mathbb{N}$, tel que $\alpha \Rightarrow^k \beta$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+Tout mot dérivé de lui même, avec k=0.\\
+Si $\beta$ dérive de $\alpha$, il existe une suite de mots, $\alpha_0, \alpha_1, ... , \alpha_k$ avec $\alpha_0 = \alpha$ et $\alpha_k = \beta$ tel que quelque soit $i < k$, $\alpha_i \Rightarrow \alpha_{i+1}$. Cette suite est appelé dérivation et est noté $\alpha_0 \Rightarrow \alpha_1 \Rightarrow ... \Rightarrow \alpha_k$.
+
+% paragraph remarque (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Soit une grammaire $G=(\Sigma,N,P,S)$, le langage engendré par un non terminal $X \in N$, noté $\mathcal{L}(X)$ et $\mathcal{L}(X)=\{wG \in \Sigma^* \mid X \Rightarrow^* w \}$.\\
+Si le mot $w$ dérive de $S$ et $w \in \Sigma^*$, alors $w$ est un mot engendré par $G$. Le langage engendré par $G$, noté $\mathcal{L}(G)$, est $\mathcal{L}(G)=\mathcal{L}(S)=\{w \in \Sigma^* \mid S \Rightarrow w\}.$
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemples} % (fold)
+\label{par:exemples}
+
+Soient les 2 langages suivants, $\mathcal{L}(A)=\{a^n \mid n > 0\}$ et $\mathcal{L}(B)=\{b^n \mid n > 0\}$, alors on peut avoir le langage suivant : $\mathcal{L}(G) = \mathcal{L}(S) = \mathcal{L}(A) \cup \mathcal{L}(B)$.
+
+% paragraph exemples (end)
+
+
+% section grammaire_formelle (end)
+
+
+% chapter grammaires (end)

@@ -1,0 +1,81 @@
+\documentclass[11pt,twoside,openright,a4paper]{report}
+
+\usepackage{tocloft}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts}
+\usepackage{amssymb}
+% \usepackage{math}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\selectlanguage{francais}
+
+\oddsidemargin 0.8cm
+\evensidemargin -0.2cm
+\textwidth 15cm
+\textheight 23cm
+\topmargin -0.5cm
+
+\renewcommand{\familydefault}{\sfdefault}
+
+% table of contents config
+
+\tocloftpagestyle{empty}
+\setcounter{tocdepth}{1}
+
+%
+
+%\usepackage{sectsty}
+\usepackage{fancyhdr}
+
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter\quad #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1\quad \thesection}}
+\lhead[\fancyplain{}{\raggedright\slshape\leftmark}]{}
+\chead{}
+\rhead[]{\fancyplain{}{\raggedleft\slshape\rightmark}}
+\lfoot[\fancyplain{}{\thepage}]{}
+\cfoot{}
+\rfoot[]{\fancyplain{\thepage}{\thepage}}
+
+%\setlength{\headrulewidth}{0.4pt}
+%\setlength{\footrulewidth}{0.4pt}
+%\setlength{\plainfootrulewidth}{0.4pt}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{Large}
+\baselineskip=7mm
+\noindent
+\hfill
+
+\begin{center}
+\rule{\textwidth}{0.5 mm}\\
+{\huge\sffamily\bfseries\baselineskip=1cm
+Cours de théorie des langages
+\par}
+\rule{\textwidth}{0.5 mm}\\
+{\Large\sffamily\bfseries Licence 3}
+\vskip 5mm
+23/06/2014
+\end{center}
+
+\vfill
+
+\end{Large}
+\end{titlepage}
+
+\cleardoublepage
+
+\tableofcontents
+
+\pagestyle{fancy}
+
+% \input{part_1/introduction.tex}
+\input{part_1/introduction.tex}
+\input{part_2/generalite_langage.tex}
+\input{part_3/grammaire.tex}
+
+\end{document}

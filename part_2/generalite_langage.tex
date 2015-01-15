@@ -1,0 +1,317 @@
+\chapter{Les généralités sur les langages} % (fold)
+\label{cha:les_g_n_ralit_s_sur_les_langages}
+
+
+\section{Alphabet et mot} % (fold)
+\label{sec:alphabet_et_mot}
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un alphabet est un ensemble fini de symboles appelés aussi lettres ou caractères. Les alphabets sont notés $\Sigma$ et les lettres les composant sont notées en minuscules.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemples} % (fold)
+\label{par:exemples}
+
+
+\begin{itemize}
+	\item $\Sigma_1 = \{a,b,c,d,e,f,g,...,z\}$
+	\item $\Sigma_2 = \{0,1,...,9\}$
+	\item $\Sigma_3 = \{0,1\}$
+	\item $\Sigma_4 = \{class,public,static,void,int,...\}$
+\end{itemize}
+
+
+% paragraph exemples (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un mot sur un alphabet $\Sigma$ est une suite finie de symbole de $\Sigma$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+La longueur d'un mot est le nombre de symboles que compose un mot. Soit un mot w la longueur d'un mot est noté $\left|w\right|$. D'une manière plus formel un mot w de longueur n sur l'alphabet $\Sigma$ est une application de \{1,2,...,n\} dans l'alphabet $\Sigma$ qui associe à chaque entier $i \in \{1,2,...,n\}$ le i\up{ème} symbole de w.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemples} % (fold)
+\label{par:exemples}
+
+\begin{itemize}
+	\item Soit l'alphabet $\Sigma=\{a,b,c\}$ et w l'application de \{1,2,3,4\} dans $\Sigma$ définie par w(1)=a, w(2)=c, w(3)=a, w(4)=b. w est un mot de longueur 4, noté $\left|w\right| = 4$.
+	\item La suite vide de symbole de $\Sigma$ est une unique application de $\emptyset$ dans $\Sigma$. Elle est appelé le mot vide noté $\epsilon$. La longueur du mot vide est de 0, $\left|\epsilon\right| = 0$.
+\end{itemize}
+
+
+% paragraph exemples (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+L’occurrence d'une lettre dans un mot est l'apparition de cette lettres dans le mot. Pour un mot w donné, le nombre d'occurrence d'une lettre x dans w est noté $\left|w\right|_x=n$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit l'alphabet $\Sigma=\{a,b,c\}$ et 2 mots $u=acab$ et $v=bb$.
+
+\begin{itemize}
+	\item La lettre $a$ a 2 occurrences dans le mot u. On peut donc noté $\left|u\right|_a=2$.
+	\item $\left|u^3\right|_{ab}=3 ; \left|u^3\right|_u=3 ; \left|v^2\right|_v=3 $
+\end{itemize}
+
+% paragraph exemple (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+$\left|w\right|=\sum\limits_{x\in\Sigma} \left|w\right|_x$
+
+% paragraph remarque (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+L'ensemble de tous mots est noté $\Sigma^*$. Si $\Sigma$ n'est pas vide alors $\Sigma^*$ est infini mais dénombrable.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+\begin{itemize}
+	\item Il ne faut pas confondre mot et symbole.
+	\item $\epsilon \in \Sigma^*$ mais $\epsilon \not \in \Sigma$
+\end{itemize}
+
+% paragraph remarques (end)
+
+
+% section alphabet_et_mot (end)
+
+
+\section{Monoïde ($\Sigma^*,.$)} % (fold)
+\label{sec:mono_de_}
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un monoïde est composé d'une loi de composition interne associative et d'un élément neutre.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+La concaténation est une opération binaire interne sur $\Sigma^*$,noté . , et défini par :
+	
+	\begin{itemize}
+		\item $\forall(u,v)\in \Sigma^*, \left|u.v\right|=\left|u\right|+\left|v\right|$
+		\item $\forall i\leq \left|u\right|,(u.v)(i)=u(i)$
+		\item $\forall i\leq \left|v\right|,(u.v)(\left|u\right|+i)=v(i)$
+	\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+L'opération associative est défini par les règles suivantes :
+
+	\begin{itemize}
+		\item $\forall(u,v,w) \in \Sigma^*,(u.v).w=u.(v.w)$
+		\item Un élément neutre $\epsilon, \forall u \in \Sigma^*, \epsilon.u=u.\epsilon=u$
+	\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+La concaténation est non commutative c'est-à-dire qu'en général $u.v \neq v.u$
+
+% paragraph remarque (end)
+
+
+La puissance n d'un mot w, noté $w^n$, est la concaténation de w n fois.
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+Soit un mot w, on a :
+
+\begin{itemize}
+	\item $w^0 = \epsilon$
+	\item $\forall i \in \mathbb{N} , w^{i+1}=w^i.w$
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemples} % (fold)
+\label{par:exemples}
+
+Soit l'alphabet $\Sigma = \{a,b,c\}$ et $u$ et $v$ 2 mots tel que $u=abac$ et $v=bb$, on peut avoir:
+\begin{itemize}
+	\item $u.v=abacbb$
+	\item $u^3=abacabacabac$
+	\item $v^0=\epsilon$
+	\item $\epsilon^5=\epsilon$
+\end{itemize}
+
+% paragraph exemples (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un mot $v$ est un facteur de $w$, s'il existe 2 mots $u_1 \in \Sigma^*$ et $u_2 \in \Sigma^*$ tel que $w=u_1vu_2$. On peut avoir les cas suivants :
+
+\begin{itemize}
+	\item Si $u_1=\epsilon$, $v$ est un facteur gauche ou préfixe de $w$
+	\item Si $u_2=\epsilon$, $v$ est un facteur droite ou suffixe de $w$
+	\item Si $u_1=\epsilon$ et $u_2=\epsilon$, $v$ est un facteur propre de $w$
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+% section mono_de_ (end)
+
+
+\section{Langage} % (fold)
+\label{sec:langage}
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Le langage sur un alphabet $\Sigma$ est un ensemble de mot sur $\Sigma$, qui peut être fini ou infini. On prend pour notation pour les langages des lettres majuscules.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemples} % (fold)
+\label{par:exemples}
+
+Soit le l'alphabet $\Sigma=\{a,b,c\}$, on a :
+
+\begin{itemize}
+	\item $A=\{a,bb,abac,bba,aaa\}$, un langage contenant 5 mots.
+	\item $B=\emptyset$, un langage contenant aucun mot.
+	\item $C=\{\epsilon\}$, un langage contenant 1 mot.
+	\item $D=\{w \in \Sigma^* \mid \left|w\right|_c=0\}$ est un langage ne contenant aucun symbole $c$.
+\end{itemize}
+
+% paragraph exemples (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+Le langage vide est représenté par le symbole $\emptyset$ qui est différent du mot vide représenté par $\epsilon$.
+
+% paragraph remarque (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Les langages sont des ensembles donc on peut utiliser toutes les opérations ensemblistes.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soient 2 langages A et B, on peut avoir les langages suivants : $A \cap B$, $A \cup B$, $A \setminus B$, $\overline{A}$ (complémentaire du langage A par rapport à $\Sigma$).
+
+% paragraph exemple (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+La concaténation s'étant aux langages, noté . , de la manière suivante. Soient A et B 2 langages dans l'alphabet $\Sigma^*$, on a $A.B=\{u.v \mid a \in A et v \in B\}$. La concaténation est distributive par rapport à l'Union mais pas par rapport à l'Instersection. 
+
+% paragraph d_finition (end)
+
+
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+\begin{itemize}
+	\item $\emptyset.A=\emptyset$ mais $\{\epsilon\}.A=A$.
+	\item $\mathcal{P}(\Sigma^*)$ est l'ensemble des parties de $\Sigma^*$.
+	\item $(\mathcal{P}(\Sigma^*),.)$ est un monoïde.
+\end{itemize}
+
+% paragraph remarques (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+La puissance $n$ d'un langage noté $A^n$ est défini par :
+\begin{itemize}
+	\item $A^0=\{\epsilon\}$
+	\item $\forall i \in \mathbb{N}, A^{i+i}=A^i.A$
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Définitions} % (fold)
+\label{par:d_finitions}
+
+L'Etoile, ou Itération, ou Fermeture ou clôture de Kleene, d'un langage $A$, noté $A^*$, défini par :
+
+$A^* = \cup_{i \in \mathbb{N}} A^i = A^0 \cup A^1 \cup ...$
+
+L'étoile propre de $A$, noté $A^+$ défini par :
+
+$A^+ = \cup_{i\in \mathbb{N^*}} A^i = A^1 \cup A^2 \cup ...$
+
+% paragraph d_finitions (end)
+
+
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+$A^+ = A.A^*$
+
+$A^* = A^0 \cup A^+$
+
+Si $\epsilon \in A$ alors $w \in A^+$ et $A^+ = A^*$
+$A^*$ est le plus petit langage qui contient $A$, $\{\epsilon\}$ et qui est stable, ou fermé, par concaténation.
+
+Si l'on considère l'alphabet $\Sigma$ comme un langage, contenant tous les mots de longueur 1. Pour tout $i \in \mathbb{N}$, $\Sigma^i$ est le langage de longueur $i$, alors $\Sigma^*$ est le langage de tous les mots.
+
+% paragraph remarques (end)
+
+
+% section langage (end)
+
+
+% chapter les_g_n_ralit_s_sur_les_langages (end)
