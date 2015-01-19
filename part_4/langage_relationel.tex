@@ -1,0 +1,454 @@
+\chapter{Langage relationnel} % (fold)
+\label{cha:langage_relationnel}
+
+
+\section{Définitions} % (fold)
+\label{sec:d_finitions}
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+L'ensemble des langages rationnels $Rat(\Sigma)$ sur l'alphabet $\Sigma$ est le plus petit ensemble des langages satisfaisant les conditions :
+
+\begin{itemize}
+	\item $\varnothing$ est un langage rationnel.
+	\item $\{\epsilon\}$ est un langage rationnel.
+	\item $\forall a \in \Sigma$, a est un langage rationnel.
+	\item Si $\mathcal{L}_1,\mathcal{L}_2 \in Rat(\Sigma)$ alors $\mathcal{L}_1 \cup \mathcal{L}_2 \in Rat(\Sigma)$.
+	\item Si $\mathcal{L}_1,\mathcal{L}_2 \in Rat(\Sigma)$ alors $\mathcal{L}_1 . \mathcal{L}_2 \in Rat(\Sigma)$.
+	\item Si $\mathcal{L} \in Rat(\Sigma)$ alors $\mathcal{L}^* \in Rat(\Sigma)$.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+$Rat(\Sigma)$ est le plus petit ensemble qui contient les langages finis, fermé par Union, Concaténation et Étoile de langages finis, s'appelle une décomposition de Kleene.
+
+% section d_finitions (end)
+
+
+\section{Expression régulière} % (fold)
+\label{sec:expression_r_guli_re}
+
+Les expressions régulières sont une manière plus simple d'écrire une décomposition de Kleene.
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Une expression régulière (ou expression rationnelle) pour un alphabet $\Sigma$ est une expression formé par les règles suivantes :
+
+\begin{itemize}
+	\item $\varnothing$ est une expression régulière.
+	\item $\epsilon$ est une expression régulière.
+	\item Si $a \in \Sigma$ alors $a$ est une expression régulière.
+	\item Si $\alpha et \beta$ sont des expressions régulières alors $\alpha + \beta$ est une expression régulière.
+	\item Si $\alpha et \beta$ sont des expressions régulières alors $\alpha . \beta$ est une expression régulière.
+	\item Si $\alpha$ est une expression régulière alors $\alpha^*$ est une expression régulière.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+On appelle valeur d'une expression régulière $\alpha$, notée $\mathcal{L}(\alpha)$ le langage désigné par l'expression régulière $\alpha$ définit par :
+
+\begin{itemize}
+	\item $\mathcal{L}(\varnothing)=\varnothing$.
+	\item $\mathcal{L}(\epsilon)=\{\epsilon\}$.
+	\item Si $a \in \Sigma, \mathcal{L}(a)=\{a\}$.
+	\item Si $\alpha$ et $\beta$ sont des expressions régulières alors $\mathcal{L}(\alpha + \beta)=\mathcal{L}(\alpha) \cup \mathcal{L}(\beta)$.
+	\item Si $\alpha$ et $\beta$ sont des expressions régulières alors $\mathcal{L}(\alpha * \beta)=\mathcal{L}(\alpha) . \mathcal{L}(\beta)$.
+	\item Si $\alpha$ est une expression régulière alors $\mathcal{L}(\alpha^*)=(\mathcal{L}(\alpha))^*$.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemples} % (fold)
+\label{par:exemples}
+
+\begin{itemize}
+	\item $\mathcal{L}((ab + \epsilon)bb)=\{abbb , bb\}$.
+	\item $\mathcal{L}((a + b)^*bb)$ sont tous les mots de l'alphabet $\Sigma$ se terminant par bb.
+\end{itemize}
+
+% paragraph exemples (end)
+
+
+\paragraph{Attention} % (fold)
+\label{par:attention}
+
+$a$ peut désigner 3 choses différentes :
+\begin{itemize}
+	\item Le symbole $a$ de $\Sigma$.
+	\item Le mot $a$ (une suite finie de un symbole).
+	\item $a$ est maintenant une expression régulière (dont la valeur est un langage, soit un ensemble de mots $\mathcal{L}(a)=\{a\}$).
+\end{itemize}
+Il est donc important de préciser de quoi l'on parle au vue des notations.
+
+% paragraph attention (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Un langage est rationnelle si et seulement s'il est la valeur d'une expression régulière.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Par isomorphisme (équivalences) des définitions inductives (on part du cas de base pour aller vers des cas généraux).\\
+
+% paragraph preuve (end)
+
+On autorise d'autres notations.
+
+\begin{itemize}
+	\item Si $\alpha$ est une expression régulière et $i \in \mathbb{N}$ alors $\alpha^i$ est une expression régulière, $\mathcal{L}(\alpha^i)=((\mathcal{L}(\alpha))^i$.\\
+	Exemple : $\alpha=\alpha^3$.
+	\item Si $\alpha$ est une expression régulière alors $\alpha^+$ est une expression régulière, $\mathcal{L}(\alpha^+)=(\mathcal{L}(\alpha))^+.$\\
+	Exemple : $\alpha\alpha^*=\alpha^+$.
+\end{itemize}
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+2 expressions régulières $\alpha, \beta$ sont équivalentes, noté $\alpha = \beta$ si $\mathcal{L}(\alpha)=\mathcal{L}(\beta)$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+$(ab + \epsilon)bb=ab^3+b^2$.
+
+% paragraph exemple (end)
+
+
+Quelques égalités remarquables :
+
+\begin{itemize}
+	\item $\alpha + \beta = \beta + \alpha$.
+	\item $\alpha + \alpha = \alpha$.
+	\item $\alpha + \varnothing = \alpha$.
+	\item $\alpha + (\beta + \gamma) = (\alpha + \beta) + \gamma$.
+	\item $\alpha . \epsilon = \alpha$.
+	\item $\alpha . \varnothing = \varnothing$.
+	\item $\alpha . (\beta . \gamma) = (\alpha . \beta) . \gamma$.
+	\item $\alpha . (\beta + \gamma) = \alpha . \beta + \alpha . \gamma$.
+	\item $\alpha^* = \alpha^* . \alpha^* = ((\alpha^*)^*) = (\epsilon + \alpha)^* = \epsilon + \alpha^+$.
+	\item $\varnothing^* = \epsilon^* = \epsilon$.
+	\item $(\alpha + \beta)^* = (\alpha^* + \beta^*)^* = (\alpha^* . \beta^*)^* = \alpha^*(\beta . \alpha^*)^* = (\alpha^* . \beta)^* . \alpha^*$.
+	\item $\alpha(\beta.\alpha)^* = (\alpha\beta)^*\alpha$.
+\end{itemize}
+
+
+Dans la suite du cours, on identifie $\alpha$ par $\mathcal{L}(\alpha)$.\\
+$\alpha \subseteq \beta$ si $\mathcal{L}(\alpha) \subseteq \mathcal{L}(\beta)$. Grâce à la relation d'ordre, on peut obtenir les relations suivantes :
+
+
+\begin{itemize}
+	\item $\alpha \subseteq \beta$ et $\beta \subseteq \alpha$ implique $\alpha = \beta$.
+	\item $\alpha \subseteq \alpha$.
+	\item Si $\alpha \subseteq \beta$ alors, $\forall \gamma, \gamma\alpha \subseteq \gamma\beta$.
+\end{itemize}
+
+
+$\alpha = \beta$ si $\mathcal{L}(\alpha)=\mathcal{L}(\beta)$. Grâce à la relation d'équivalence, on peut obtenir les relations suivantes :
+
+
+\begin{itemize}
+	\item $\alpha = \alpha$.
+	\item $\alpha = \beta$ implique $\beta = \alpha$.
+	\item $\alpha = \beta$ et $\beta = \gamma$ implique $\alpha = \gamma$.
+\end{itemize}
+
+
+Si $L$ est le langage rationnel alors $L$ est une expression régulière, $\mathcal{L}(L)=L$.
+
+
+\paragraph{Théorème} % (fold)
+\label{par:th_or_me}
+
+Soit $\alpha$ et $\beta$ 2 expressions régulières, ou langages relationnels, on considère l'équation d'inconnue $X$, $X = \alpha X + \beta$ ($X$ est un langage).
+
+
+\begin{itemize}
+	\item $\alpha^* \beta$ est solution de l'équation.
+	\item $\alpha^* \beta$ est la plus petite solution.
+	\item Si $\epsilon \not \in \alpha$ alors $\alpha^* \beta$ est l'unique solution.
+\end{itemize}
+
+% paragraph th_or_me (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+\begin{itemize}
+	\item $\alpha^* \beta$ est solution de l'équation.\\
+
+	On remplace $X$ par $\alpha^* \beta$ dans $\alpha X + \beta$.\\
+	$\alpha X + \beta = \alpha(\alpha^* \beta) + \beta = \alpha^+ \beta + \beta = (\alpha^+ + \epsilon)\beta = \alpha^* \beta=X$.\\
+	
+	\item $\alpha^* \beta$ est la plus petite solution.\\
+	Soit $X$ une solution, on veut montrer $\alpha^* \beta \subseteq X$.\\
+	$\alpha^* \beta = (\sum_{i \in \mathbb{N}} \alpha^i)\beta = \sum_{i \in \mathbb{N}}(\alpha^i \beta)$.\\
+	On montre par récurrence sur $i$ que $\forall i \in \mathbb{N}, \alpha^i\beta \subseteq X$ :
+	
+	\begin{itemize}
+		\item Pour $i=0, \alpha^i \beta = \alpha^0 \beta = \epsilon \beta = \beta, \beta \subseteq \alpha X + \beta = X$.
+		\item Pour $i+1$, on suppose que $\alpha^i \beta \subseteq X$.\\
+		$\alpha^{i+1} \beta = \alpha \alpha^i \beta$ donc $\alpha^{i+1} \beta \subseteq \alpha X \subseteq \alpha X + \beta = X$.\\
+	\end{itemize}
+	
+	$\forall \in \mathbb{N}, \alpha^i \beta \subseteq X$. Donc $\alpha^* \beta \subseteq X$, $\alpha^* \beta$ est la plus petite solution.\\
+
+	\item Si $\epsilon \not \in \alpha$ alors $\alpha^* \beta$ est l'unique solution.\\
+
+	Soit $X$ une solution, on va montrer $X \subseteq \alpha^* \beta$.\\
+	$X = \alpha X + \beta$\\
+	$X = \alpha(\alpha X + \beta)+\beta = \alpha^2 X + \alpha \beta + \beta$\\
+	$X = \alpha^2(\alpha X + \beta) + \alpha \beta + \beta = \alpha^3 X + \alpha^2 \beta + \alpha^1 \beta + \alpha^0 \beta$\\
+	$X = \alpha^{k+1} X + \alpha^k \beta + ... + \alpha^1 \beta + \alpha^0 \beta = \alpha^{k+1} X + (\alpha^k + ... + \alpha^1 + \alpha^0) \beta$.\\
+
+	Soit $m \in X (m \in \mathcal{L}(X))$, soit $k = \left|m\right|$. Comme $\epsilon \not \in \alpha$, tous les mots de $\alpha^{k+1}$ sont de longueur supérieur ou égale à $k+1$, et donc tous les mots de $\alpha^{k+1} X $ sont de longueur supérieur ou égale à $k+1$. Donc $m \not \in \alpha^{k+1} X$. Donc $m \in (\alpha^k + ... + \alpha^1 + \alpha^0)\beta \in \alpha^* \beta$. Donc $X \subseteq \alpha^* \beta$.\\
+\end{itemize}
+
+% paragraph preuve (end)
+
+
+\paragraph{Théorème} % (fold)
+\label{par:th_or_me}
+
+La règle d'Arden, ou Lemme d'Arden, est la règle suivante : Soit $\alpha$ et $\beta$ 2 expressions régulières, ou langages relationnels, on considère l'équation d'inconnue $X$, $X = \alpha X + \beta$ ($X$ est un langage). Si $\epsilon \not \in \alpha$ alors $\alpha^* \beta$ est l'unique solution. Comme $\alpha$ et $\beta$ sont rationnelles, alors $\alpha^* \beta$ est rationnel.
+
+% paragraph th_or_me (end)
+
+Si $\epsilon \in \alpha$ alors la solution n'est pas unique.$\forall \gamma$, tel que $\beta \subseteq \gamma$, alors $\alpha^* \gamma$ est aussi une solution.
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+$\alpha X + \beta = \alpha (\alpha^* \gamma) + \beta = \alpha^+ \gamma + \beta$\\
+$\alpha X + \beta = \alpha^* \gamma + \beta$ (car $\epsilon \in \alpha$) $ = \alpha^* \gamma$ (car $\beta \subseteq \gamma$ dont $\beta \subseteq \alpha^* \gamma$) $= \alpha$.
+
+% paragraph preuve (end)
+
+
+\paragraph{Analogie avec l'algèbre} % (fold)
+\label{par:analogie_avec_l_alg_bre}
+
+Si $\epsilon \not \in \alpha$ alors $\alpha^* \beta$ est une unique solution.\\
+$X = \alpha X + \beta \Leftrightarrow X - \alpha X = \beta \Leftrightarrow (1-\alpha) X = \beta \Leftrightarrow X = \frac{\beta}{1-\alpha}$.\\
+On suppose que $\alpha \not = 1$, alors $X = (1 + \alpha + \alpha^2 + ... + \alpha^k + ... )\beta$ grâce aux développement limité de $\frac{1}{1-\alpha}$, quand $\alpha \rightarrow 0$.\\
+$X = (1 + \alpha + \alpha^2 + ... + \alpha^k + ... )\beta \Leftrightarrow X = \alpha^* \beta$.
+
+% paragraph analogie_avec_l_alg_bre (end)
+
+
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+\begin{itemize}
+	\item $X = \epsilon X + \beta \Leftrightarrow \beta \subseteq X$.
+	\item $X = \varnothing X + \beta \Leftrightarrow X = \beta$.
+\end{itemize}
+
+% paragraph remarques (end)
+
+On considère maintenant le système de n équations à n inconnues $X_1, X_2, ..., X_n$ :
+
+\[
+   \left \{
+   \begin{array}{cccc}
+  		X_{1} = L_{1,1} X_1 + L_{1,2} X_2 + ... + L_{1,n} X_n + L_1\\
+    	X_{2} = L_{2,1} X_1 + L_{2,2} X_2 + ... + L_{2,n} X_n + L_2\\
+		\vdots\\
+    	X_{n} = L_{n,1} X_1 + L_{n,2} X_2 + ... + L_{n,n} X_n + L_n\\
+   \end{array}
+   \right .
+\]
+
+Où les $L_{i,j}$ et $L_i$ sont des langages rationnelles.
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Le système ci-dessus est régulier si $\forall i,j, \epsilon \not \in \mathcal{L}_(i,j)$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Théorème} % (fold)
+\label{par:th_or_me}
+
+Un système d'équations réguliers à n équations et n inconnues à une unique solution qui est un langage rationnel pour chaque inconnue.
+
+% paragraph th_or_me (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+On peut résoudre le système par une méthode de pivot de Gauss, et on remarque qu'à chaque étape, le système régulier de la forme : $X_1 = (L_{1,1})^*\ (L_{1,2} X_2 + ... + L_{1,n} X_n + L_1)$. On remplace $X_1$ dans toutes les équations et l'on recommence ainsi pour chaque une des inconnues.
+
+% paragraph preuve (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit le système suivant, avec $a,b \not \in \epsilon$ :\\
+\[
+   \left \{
+   \begin{array}{cc}
+  		X = aX + vY + \epsilon\\
+    	Y = bX + aY\\
+   \end{array}
+   \right .
+\]
+
+\[
+   \left \{
+   \begin{array}{cc}
+  		X = aX + b(a^*bX) + \epsilon\\
+    	Y = a^*bX\\
+   \end{array}
+   \right .
+\]
+
+\[
+   \left \{
+   \begin{array}{cc}
+  		X = (a+ba^*b)X + \epsilon\\
+    	Y = a^*bX\\
+   \end{array}
+   \right .
+\]
+
+\[
+   \left \{
+   \begin{array}{cc}
+  		X = (a+ba^*b)^*\\
+    	Y = a^*b(a+ba^*b)^*\\
+   \end{array}
+   \right .
+\]
+
+% paragraph exemple (end)
+
+% section expression_r_guli_re (end)
+
+
+\section{Grammaires régulières} % (fold)
+\label{sec:grammaires_r_guli_res}
+
+Toutes les règles de production de la forme $A \rightarrow w$ ou $A \rightarrow wB$ avec $A$ et $B$ des non terminaux et $w$ un mot sur l'alphabet terminal. Un langage est régulier s'il est engendré par une grammaire régulière.
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Tout langage fini est régulier.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Soit $L = \{w_1, w_2, ... , w_n\}$, $L$ est engendré par une grammaire $G = (\Sigma , \{S\}, \{S \rightarrow w, S \rightarrow w_1 \mid w_2 \mid ... \mid w_n\},S)$.
+Une grammaire linéaire gauche a des règles de productions de la forme, $A \rightarrow w ou A \rightarrow Bw$. On a une équivalence avec les grammaires régulières est le terme du langage engendré.
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Tout langage régulier est engendré par une grammaire $G=(\Sigma,N,P,S)$, dont les règles de productions sont toutes de la forme $A \rightarrow aB$ (avec $A,B \in N$, des non terminaux et $a \in \Sigma$, un terminal) ou $A \rightarrow \epsilon$, avec $A \in N$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Soit la grammaire régulière $G=(\Sigma,N,P,S)$. Soit une règle de $P$ qui n'a pas la bonne forme.
+
+\begin{itemize}
+	\item $A \rightarrow a_1a_2 ... a_k B$ avec $k \geq 2$.\\
+	On ajoute k-1 non terminaux $B_1, B_2, ..., B_{k-1}$ à $N$, et on remplace la règle par k règles, on obtient : \\
+	$A \rightarrow a_1 B_1$\\
+	$B_1 \rightarrow a_2 B_2$\\
+	$\vdots$\\
+	$B_{k-1} \rightarrow a_k B$
+
+	\item $A \rightarrow a_1a_2 ... a_k$ avec $k \geq 1$. On ajoute k non terminaux $B_1 B_2 ... B_k$ à $N$ et on remplace par les $k+1$ règles, on obtient :\\
+	$A \rightarrow a_1 B_1$\\
+	$B_1 \rightarrow a_2 B_2$\\
+	$\vdots$\\
+	$B_{k-1} \rightarrow a_k B_k$\\
+	$B_k \rightarrow \epsilon$
+
+	\item $A \rightarrow B$, avec $k=0$.
+	\begin{itemize}
+		\item Si $A = B$, alors on a la règle $A \rightarrow A$ que l'on peut supprimer.
+		\item Si $A \not = B$. Soit $B \rightarrow \alpha_1 \mid \alpha_2 \mid ... \mid \alpha_n$, toutes les règles avec $B$ à gauche. On remplace $A \rightarrow B$ par $A \rightarrow \alpha_1 \mid \alpha_2 \mid ... \mid \alpha_n$.
+	\end{itemize}
+
+\end{itemize}
+
+% paragraph preuve (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+Pour une grammaire régulière, on obtient l'arbre de dérivation suivant :
+
+\begin{center}
+	\begin{tikzpicture}[level distance=11mm,sibling distance=20mm]
+	
+	\node{S}
+		child{node{$a_{1,1}$}}
+		child{node{$a_{1,2}$}}
+		child{node{...}}
+		child{node{$a_{1,n}$}}
+		child{node{$A_1$}
+			child{node{$a_{2,1}$}}
+			child{node{$a_{2,2}$}}
+			child{node{...}}
+			child{node{$A_2$}
+				child{node{...}
+					child{node{$A_k$}
+						child{node{$a_{k,1}$}}
+						child{node{$a_{k,2}$}}
+						child{node{...}}
+						child{node{$a_{k,n_k}$}}
+						}
+					}
+				}
+			}
+		;
+
+	\end{tikzpicture}
+\end{center}
+
+% paragraph remarque (end)
+
+
+% section grammaires_r_guli_res (end)
+
+
+% chapter langage_relationnel (end)
