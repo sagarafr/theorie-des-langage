@@ -448,7 +448,211 @@ Pour une grammaire régulière, on obtient l'arbre de dérivation suivant :
 % paragraph remarque (end)
 
 
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+Pour un arbre de dérivation il y a une seule dérivation qui lui correspond, c'est-à-dire que la dérivation gauche est équivalente à la dérivation droite.\\
+
+% paragraph remarques (end)
+
+Soit la grammaire $G=(\Sigma,N,P,S)$, soit $A \in N$, on peut définir $\mathcal{L}(A)=\{ w \in \Sigma^* \mid A \Rightarrow^* w \}$
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Soit $G=(\Sigma,N,P,S)$ une grammaire régulière alors $\forall A \in N, \mathcal{L}(A)$ est un langage régulière.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+$\mathcal{L}(A)$ est le langage engendré par $(\Sigma,N,P,A)$ avec $\Sigma,N,P$ les même que G.
+
+% paragraph preuve (end)
+
+
 % section grammaires_r_guli_res (end)
+
+
+\section{Automate d'états fini} % (fold)
+\label{sec:automate_d_tats_fini}
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un automate d'états fini, ou automate fini, c'est un quintuplet $(\Sigma,Q,\Delta,D,F)$ avec:
+
+\begin{itemize}
+	\item $\Sigma$ est un alphabet, un ensemble fini de symboles.
+	\item $Q$ est un ensemble fini d'états.
+	\item $\Delta$ est un ensemble de relations, $\Delta \subseteq Q \times \Sigma \times Q$. Un élément $(q,x,q')$ de $\Delta$ est appelé une transition. On passe de l'état $q$ à l'état $q'$ en acceptant $x$.
+	\item $D$ est l'ensemble des états initiaux, $D \subseteq Q$.
+	\item $F$ est l'ensemble des états finaux, $F \subseteq Q$.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Diagramme de transition} % (fold)
+\label{par:diagramme_de_transition}
+
+L'automate est vu comme un graphe orienté et étiqueté. On prendra par la suite les notations suivantes :
+
+\begin{itemize}
+	\item Un état $q \in Q$\\
+
+	\begin{tikzpicture}
+	  \tikzstyle{every state}=[draw=black,text=black]
+	
+	  \node[state] (Q)                    {$q$};
+	
+	\end{tikzpicture}\\
+
+	\item Un état initial $q_0 \in D$\\
+
+	\begin{tikzpicture}
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[initial,state]	(Q)	{$q_0$};
+	
+	\end{tikzpicture}\\
+
+	\item Un état final $q_k \in F$\\
+
+	\begin{tikzpicture}
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state,accepting]	(Q)	{$q_k$};
+	
+	\end{tikzpicture}\\
+
+	ou\\
+
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,>=stealth',thick]
+	\tikzstyle{every state}=[draw=black,text=black]
+
+		\node[state]	(Q)	{$q_k$};
+		\coordinate[right of=Q] (dQ);
+		\draw[->]	(Q)	to[bend right]	node[auto]	{}	(dQ);
+	\end{tikzpicture}\\
+
+	\item Une transition $(q,x,q') \in \Delta$\\
+
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state]	(1)						{$q_1$};
+		\node[state]	(2)	[right of=1]		{$q_2$};
+
+	\path	(1)	edge	node{$x$}	(2);
+	
+	\end{tikzpicture}\\
+
+\end{itemize}
+
+% paragraph diagramme_de_transition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit l'automate défini de la manière suivante $(\{a,b\},\{1,2\},\{(1,a,1),(1,b,2),(2,a,1)\},\{1\},\{1\})$\\
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+\tikzstyle{every state}=[draw=black,text=black]
+	
+	\node[state,initial,accepting]					(1)	{$1$};
+	\node[state]					[right of=1]	(2)	{$2$};
+
+	\path	(1)	edge	[loop above]	node{$a$}	(1)
+				edge 	[bend left]		node{$b$}	(2)
+			(2)	edge 	[bend left]		node{$a$}	(1);
+			% (2)	edge					node($a$)	(1);
+
+\end{tikzpicture}
+
+% paragraph exemple (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Soit l'automate $A=(\Sigma,Q,\Delta,D,F)$, soit $w$ un mot sur $\Sigma$ de longueur $k$ ($\left|w\right|=k$) et pour tout $i \leq k$, soit $x_i \in \Sigma$ tel que $w=x_1 x_2 \ldots x_k$.\\
+Le mot est accepté, ou reconnu, par l'automate $A$, s'il existe une suite d'état $q_0, q_1, \ldots, q_k$ tel que:
+
+\begin{itemize}
+	\item $q_0 \in D$, l'état initial.
+	\item $\forall i, 1 \leq i \leq k$, on a une transition de la forme $(q_{i-1},x,q_{i}) \in \Delta$.
+	\item $q_k \in F$, l'état final.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit l'automate $A=(\{a,b\},\{1,2\},\{(1,a,1),(1,b,2),(2,a,1)\},\{1\},\{1\})$
+\begin{itemize}
+	\item $w=abaa$ est un mot accepté par l'automate.
+	\item $w=abaab$ n'est pas un mot par l'automate.
+\end{itemize}
+
+% paragraph exemple (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Soit $A=(\Sigma,Q,\Delta,D,F)$, le langage reconnu, ou accepté, par $A$, noté $\mathcal{L}(A)$ est $\mathcal{L}(A)=\{w \in \Sigma^* \mid w\ est\ reconnu\ par\ A\}$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+L'ensemble des mots tel que tout $b$ est suivi d'un $a$, est l'expression $(a+ba)^*$.
+
+% paragraph exemple (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Deux automates $A$ et $B$ sont équivalents si $\mathcal{L}(A)=\mathcal{L}(B)$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un langage $L \subseteq \Sigma^*$ est reconnaissable s'il existe un automate $A$ tel que $L=\mathcal{L}(A)$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+$\epsilon \in \mathcal{L}(A) \Leftrightarrow D \cap F \not = \varnothing$.
+
+% paragraph remarque (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+$\forall q \in Q$, on note $\mathcal{L}(q)$, le langage reconnu par l'automate $A=(\Sigma,Q,\Delta,\{q\},F)$. Les $\mathcal{L}(q)$ sont des langages reconnaissables.
+
+% paragraph d_finition (end)
+
+
+% section automate_d_tats_fini (end)
 
 
 % chapter langage_relationnel (end)

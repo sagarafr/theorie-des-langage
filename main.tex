@@ -1,10 +1,8 @@
 \documentclass[11pt,twoside,openright,a4paper]{report}
 
 \usepackage{tocloft}
-%\usepackage{graphicx}
 \usepackage{amsmath,amsfonts}
 \usepackage{amssymb}
-%\usepackage{math}
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 
@@ -23,7 +21,7 @@
 
 \renewcommand{\familydefault}{\sfdefault}
 
-% table of content link ?
+% table of content link
 
 \usepackage{hyperref}
 \hypersetup{
@@ -42,7 +40,6 @@
 
 %
 
-%\usepackage{sectsty}
 \usepackage{fancyhdr}
 
 \renewcommand{\chaptermark}[1]{\markboth{\thechapter\quad #1}{}}
@@ -54,12 +51,14 @@
 \cfoot{}
 \rfoot[]{\fancyplain{\thepage}{\thepage}}
 
-%\setlength{\headrulewidth}{0.4pt}
-%\setlength{\footrulewidth}{0.4pt}
-%\setlength{\plainfootrulewidth}{0.4pt}
-
 \usepackage{listings}
 \usepackage{xcolor}
+
+% Automate
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
 
 \begin{document}
 
