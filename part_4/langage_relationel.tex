@@ -201,7 +201,7 @@ Soit $\alpha$ et $\beta$ 2 expressions régulières, ou langages relationnels, o
 	
 	\item $\alpha^* \beta$ est la plus petite solution.\\
 	Soit $X$ une solution, on veut montrer $\alpha^* \beta \subseteq X$.\\
-	$\alpha^* \beta = (\sum_{i \in \mathbb{N}} \alpha^i)\beta = \sum_{i \in \mathbb{N}}(\alpha^i \beta)$.\\
+	$\alpha^* \beta = (\sum\limits_{i \in \mathbb{N}} \alpha^i)\beta = \sum\limits_{i \in \mathbb{N}}(\alpha^i \beta)$.\\
 	On montre par récurrence sur $i$ que $\forall i \in \mathbb{N}, \alpha^i\beta \subseteq X$ :
 	
 	\begin{itemize}
@@ -368,7 +368,7 @@ Tout langage fini est régulier.
 \label{par:preuve}
 
 Soit $L = \{w_1, w_2, ... , w_n\}$, $L$ est engendré par une grammaire $G = (\Sigma , \{S\}, \{S \rightarrow w, S \rightarrow w_1 \mid w_2 \mid ... \mid w_n\},S)$.
-Une grammaire linéaire gauche a des règles de productions de la forme, $A \rightarrow w ou A \rightarrow Bw$. On a une équivalence avec les grammaires régulières est le terme du langage engendré.
+Une grammaire linéaire gauche a des règles de productions de la forme, $A \rightarrow w$ ou $A \rightarrow Bw$. On a une équivalence avec les grammaires régulières est le terme du langage engendré.
 
 % paragraph preuve (end)
 
@@ -650,6 +650,319 @@ $\epsilon \in \mathcal{L}(A) \Leftrightarrow D \cap F \not = \varnothing$.
 $\forall q \in Q$, on note $\mathcal{L}(q)$, le langage reconnu par l'automate $A=(\Sigma,Q,\Delta,\{q\},F)$. Les $\mathcal{L}(q)$ sont des langages reconnaissables.
 
 % paragraph d_finition (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+$\mathcal{L}(A) = \bigcup\limits_{q \in D} \mathcal{L}(q)$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Trivial par l'ensemble des définitions.
+
+% paragraph preuve (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un automate $A$ est déterministes si :
+
+\begin{itemize}
+	\item $\left|D\right| = 1$, un seul état initial.
+	\item Pour tout état, pour tout symbole, on a au plus une transition partant de cette état étiqueté par ce symbole. $\forall q \in Q, \forall x \in \Sigma, \left| \{ q' \in Q \mid (q,x,q') \in \Delta \} \right| \leq 1$.
+\end{itemize}
+
+C'est-à-dire que $\Delta$ est le graphe d'une fonction éventuellement partielle, de $Q \times \Sigma$ dans $Q$.\\
+
+Un automate $A$ est complet si :
+
+\begin{itemize}
+	\item Pour tout état, pour tout symbole, on a au moins une transition partant de cette état étiqueté par ce symbole. $\forall q \in Q, \forall x \in \Sigma, \left| \{ q' \in Q \mid (q,x,q') \in \Delta \} \right| \geq 1$.\\
+\end{itemize}
+
+Un automate $A$ est déterministe complet si :
+
+\begin{itemize}
+	\item $\left| D \right| = 1$, un seul état initial.
+	\item Pour tout état, pour tout symbole, on a une transition partant de cette état étiqueté par ce symbole. $\forall q \in Q, \forall x \in \Sigma, \left| \{ q' \in Q \mid (q,x,q') \in \Delta \} \right| = 1$.\\
+\end{itemize}
+
+Dans un automate déterministe complet, pour tout mot $w$, il existe un seul chemin étiqueté par $w$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+\begin{itemize}
+	\item Soit l'automate $A = (\{a,b\} , \{1,2\} , \{(1,a,1) , (1,b,2) , (2,a,1)\} , \{1\} , \{1\})$ est déterministe mais non complet.
+	\item Soit l'automate $A = (\{a,b\} , \{1,2\} , \{(1,a,1) , (1,a,2) , (2,b,1)\} , \{1\} , \{1\})$ est non déterministe et non complet.
+\end{itemize}
+
+\begin{center}
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+		
+		\node[state,initial,accepting]					(1)	{$1$};
+		\node[state]					[right of=1]	(2)	{$2$};
+	
+		\path	(1)	edge	[loop above]	node{$a$}	(1)
+					edge 	[bend left]		node{$a$}	(2)
+				(2)	edge 	[bend left]		node{$b$}	(1);
+				% (2)	edge					node($a$)	(1);
+	
+	\end{tikzpicture}
+\end{center}
+
+
+
+% paragraph exemple (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+La relation de transition $\Delta \subseteq Q \times \Sigma \times Q$ peut être vue comme une fonction, notée $\Delta$, de $Q \times \Sigma \rightarrow \mathcal{P}(Q)$, avec $\mathcal{P}(Q)$ l'ensemble des parties de $Q$ noté aussi $\mathcal{L}^Q$.
+
+% paragraph remarque (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit l'automate $A = (\{a,b\} , \{1,2\} , \{(1,a,1) , (1,a,2) , (2,b,1)\} , \{1\} , \{1\})$, on a :\\
+
+\begin{itemize}
+	\item $\Delta(1,a) = \{1,2\}$.
+	\item $\Delta(1,b) = \varnothing$.
+	\item $\Delta(2,a) = \varnothing$.
+	\item $\Delta(2,b) = \{1\}$.
+\end{itemize}
+
+% paragraph exemple (end)
+
+
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+\begin{itemize}
+	\item La fonction $\Delta$ peut être représenté par la table suivante :\\
+
+	\begin{center}
+		\begin{tabular}{|l|c|r|}
+			\hline
+			$\Delta$ & $a$ & $b$\\
+
+			\hline
+			1 & $\{1,2\}$ & $\varnothing$\\
+
+			\hline
+			2 & $\varnothing$ & $\{1\}$\\
+
+			\hline
+		\end{tabular}
+	\end{center}
+	
+	\item Cette fonction de transition $\Delta : Q \times \Sigma \rightarrow \mathcal{P}(Q)$ peut être étendue à une fonction, notée $\Delta$ de $Q \times \Sigma^*$ dans $\mathcal{P}(Q)$, de la manière suivante :
+
+	\begin{itemize}
+		\item $\forall q \in Q, \Delta(q,\epsilon) = \{q\}$.
+		\item $\forall q \in Q, \forall x \in \Sigma, \forall w \in \Sigma^*, \Delta(q,xw) = \bigcup\limits_{q' \in \Delta(q,x)} \Delta(q',w)$.
+	\end{itemize}
+
+\end{itemize}
+
+% paragraph remarques (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+C'est bien une extension car \\$\forall q \in Q, \forall x \in \Sigma, \Delta(q,x) = \bigcup\limits_{q' \in \Delta(q,x)} \Delta(q',\epsilon) = \bigcup\limits_{q' \in \Delta(q,x)} \{q'\} = \Delta(q,x)$.
+
+% paragraph preuve (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit l'automate $A = (\{a,b\} , \{1,2\} , \{(1,a,1) , (1,a,2) , (2,b,1)\} , \{1\} , \{1\})$, on a :\\
+
+$\Delta(1,aba)=\Delta(1,ba) \cup \Delta(2,ba) =\varnothing \cup \Delta(1,a)=\Delta(1,\epsilon) \cup \Delta(2,\epsilon) = \{1\} \cup \{2\} = \{1,2\}$.\\
+
+% paragraph exemple (end)
+
+
+\paragraph{Remarque} % (fold)
+\label{par:remarque}
+
+La fonction de transition $\Delta : Q \times \Sigma^* \rightarrow \mathcal{P}(Q)$ peut être étendu à une fonction, noté $\Delta$, de $\mathcal{P}(Q) \times \Sigma^*$ dans $\mathcal{P}(Q)$ de la manière suivante :\\
+
+$\forall X \subseteq Q, \forall w \in \Sigma^*, \Delta(X,w) = \bigcup\limits_{q \in X}\Delta(q,w)$.
+
+% paragraph remarque (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Un mot $w \in \Sigma^*$ est accepté par $(\Sigma,Q,\Delta,D,F)$ si et seulement si $\Delta(D,w) \cap F \not = \varnothing$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+On fait une récurrence sur la longueur du mot $w$. 
+
+% paragraph preuve (end)
+
+
+\paragraph{Conséquence} % (fold)
+\label{par:cons_quence}
+
+$\mathcal{L}(A) = \{ w \in \Sigma^* \mid \Delta(D,w) \cap F \not = \varnothing\}$.
+
+% paragraph cons_quence (end)
+
+
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+\begin{itemize}
+	\item Si $A=(\Sigma,Q,\Delta,D,F)$ est déterministe alors à sa relation de transition correspond une fonction dont toutes les images sont des singletons ou $\varnothing$. A cette fonction, on peut faire correspondre une fonction $\delta : Q \times \Sigma \rightarrow Q$, définie par $\forall q \in Q, \forall x \in \Sigma$, s'il existe $q'$ tel que $(q,x,q') \in \Delta$ alors $q'$ est unique ($\Delta(q,x) = \{q'\}$) et $\delta(q,x)=q'$, s'il n'existe pas $q'$ alors $\delta(q,x)$ n'est pas défini ($\delta$ est une fonction partielle)($\Delta(q,x)=\varnothing$).
+
+	\item Si $A$ est déterministe alors $D=\{q_0\}$, un seul état initial. L'automate $A$ pourra être désigné indifféremment par $(\Sigma,Q,\Delta,D,F)$, par définition de l'automate d'états fini, ou par le quintuplet $(\Sigma,Q,\delta,q_0,F)$, par définition de l'automate d'états finis déterministe.
+
+	\item Si $A$ est déterministe complet alors $\delta$ est une fonction totale\\
+	$\forall q \in Q, \forall x \in \Sigma, \delta(q,x)$ est défini.
+
+	\item La fonction $\delta$ peut être étendu à $\delta : Q \times \Sigma^* \rightarrow Q$, si $A$ est complet, cette extension de $\delta$ est totale.
+\end{itemize}
+
+% paragraph remarques (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Un mot de $w \in \Sigma^*$ est accepté par $A=(\Sigma,Q,\delta,q_0,F)$ déterministe si et seulement si $\delta(q_0,w) \in F$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Évidant en appliquant les définitions.
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Tout automate est équivalent à un automate complet.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Soit $A=(\Sigma,Q,\Delta,D,F)$, un automate quelconque. Si $A$ est non complet :
+
+\begin{itemize}
+	\item On ajoute un nouvel état $\Pi$ à $Q$.
+	\item $\forall q \in Q, \forall x \in \Sigma$, si $\Delta(q,x)=\varnothing$, alors on ajoute $(q,x,\Pi)$ à $\Delta$.
+	\item $\forall x \in \Sigma$, on ajoute $(\Pi,x,\Pi)$ à $\Delta$.
+\end{itemize}
+
+L'automate obtenu $(\Sigma , Q \cup \{\Pi\} , \Delta \cup \{ (q,x,\Pi) \mid \Delta(q,x) = \varnothing \} \cup \{ (\Pi,x,\Pi) \mid x \in \Sigma \} , D , F)$ est complet et équivalent à $A$. Tous les nouveaux chemins se retrouvent dans l'état $\Pi$. L'état $\Pi$, qui est ajouté pour compléter l'automate, est puits, ou l'état poubelle.
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Tout automate est équivalent à un automate déterministe.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Soit l'automate $A=(\Sigma,Q,\Delta,D,F)$. L'algorithme pour construire un automate déterministe équivalent noté $Det(A)$ est le suivant : \\
+$Det(A) = (\Sigma , \mathcal{P}(Q) , \delta , D , \{X \in \mathcal{P}(Q) \mid X \cap F \not = \varnothing\} )$ avec $\delta$ défini par : $\forall X \in \mathcal{P}(Q), \forall x \in \Sigma, \delta(X,x)=\Delta(X,x)=\bigcup\limits_{q \in X} \Delta(q,x)$.
+
+% paragraph preuve (end)
+
+
+\paragraph{Idée de construction} % (fold)
+\label{par:id_e_de_construction}
+
+Partir de $D$. On suit en parallèle tous les chemins possibles dans $A$, donc à chaque instant on se trouve dans un ensemble d'états.
+
+% paragraph id_e_de_construction (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit l'automate $A = (\{a,b\} , \{1,2\} , \{(1,a,1) , (1,a,2) , (2,b,1)\} , \{1\} , \{1\})$, on peut faire la construction suivante :\\
+$Det(A) = (\{a,b\} , \{\varnothing , \{1\} , \{2\} , \{1,2\}\} , \{ (\varnothing,a,\varnothing) , (\varnothing,b,\varnothing) , (\{1\},a,\{1,2\}) , (\{1\},b,\varnothing) ,(\{1,2\},a,\{1,2\}) , \linebreak[4] (\{1,2\},b,\{1\}) , (\{2\},a,\varnothing) , (\{2\},b,\{1\}) \} , \{1\} , \{ \{1\}  , \{1,2\} \} )$
+
+
+\begin{table}[h!]
+\begin{minipage}[t]{.6\linewidth}
+
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+		
+		\node[state,initial,accepting]					(1)	{$1$};
+		\node[state]					[right of=1]	(2)	{$2$};
+	
+		\path	(1)	edge	[loop above]	node{$a$}	(1)
+					edge 	[bend left]		node{$a$}	(2)
+				(2)	edge 	[bend left]		node{$b$}	(1);
+	
+	\end{tikzpicture}
+
+\end{minipage}
+\begin{minipage}[t]{.6\linewidth}
+
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+		
+		\node[state,initial,accepting]	(A)							{$1$};
+		\node[state,accepting]			(B)	[right of=A]		{$1,2$};
+		\node[state]					(C)	[above right of=A]		{$\varnothing$};
+		% \node[state,initial,accepting]					(1)	{$1$};
+		% \node[state]					[right of=1]	(2)	{$2$};
+	
+		\path	(A)		edge					node{$b$}	(C)
+						edge 	[bend left]		node{$a$}	(B)
+				(B)		edge	[loop above]	node{$a$}	(B)
+						edge 	[bend left]		node{$b$}	(A)
+				(C)		edge	[loop right]	node{$a$}	(C)
+						edge 	[loop left] 	node{$b$}	(C);
+	
+	\end{tikzpicture}
+
+\end{minipage}
+\end{table}
+
+% paragraph exemple (end)
 
 
 % section automate_d_tats_fini (end)
