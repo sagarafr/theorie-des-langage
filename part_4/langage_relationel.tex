@@ -964,8 +964,328 @@ $Det(A) = (\{a,b\} , \{\varnothing , \{1\} , \{2\} , \{1,2\}\} , \{ (\varnothing
 
 % paragraph exemple (end)
 
+Tout langage reconnaissable est reconnu par un automate déterministe. L'automate déterministe est non unique, mais il existe un plus petit automate, nommé automate minimal.
+
+\begin{center}
+	\begin{tabular}{ | l | p{5cm} | p{5cm} |}
+		\hline
+		Comparaison & Automate non déterministe & Automate déterministe\\
+		\hline
+		Taille & Éventuellement le plus petit & \\
+		\hline
+		Algorithme & Exploration de tous les chemins possibles(Utilisation du back) & Plus intéressant car il y a 0 ou 1 chemin possible\\
+		\hline
+	\end{tabular}
+\end{center}
+
+
+\paragraph{Simplification du schéma des automates} % (fold)
+\label{par:simplification_du_sch_ma_des_automates}
+
+\begin{itemize}
+	\item On peut remplacer l'ensemble des arcs de $q$ à $q'$ par un arc étiqueté, soit $\{ x\in \Sigma \mid (q,x,q') \in \Delta \}$\\\\
+	Exemple:\\\\
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state]	(1)						{$q$};
+		\node[state]	(2)	[right of=1]		{$q'$};
+
+	\path	(1)	edge	node{$\{a,b\}$}	(2);
+	
+	\end{tikzpicture}\\
+
+	\item Dans les automates asynchrones, ou les automates avec des $\epsilon$-transition, on autorise les transitions étiquetées par $\epsilon$, soit $(q,\epsilon,q') \in \Delta$.
+
+	\item On peut autoriser les transitions étiquetées par des mots.\\\\
+	Exemple:\\\\
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state]	(1)						{$q$};
+		\node[state]	(2)	[right of=1]		{$q'$};
+
+	\path	(1)	edge	node{$x_1x_2\ldots x_n$}	(2);
+	
+	\end{tikzpicture}\\
+
+	Pour exprimer l'automate suivant :
+
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state]	(1)							{$q$};
+		\node[state]	(2)	[right of=1]			{$q_1$};
+		\node[state]	(3)	[right of=2]			{$q_2$};
+		\node[state]	(4)	[right of=3,draw=white]	{$\ldots$};
+		\node[state]	(5)	[right of=4]			{$q_{n-1}$};
+		\node[state]	(6)	[right of=5]			{$q'$};
+
+
+		\path	(1)	edge	node{$x_1$}				(2);
+		\path	(2)	edge	node{$x_2$}				(3);
+		\path	(3)	edge	node{$x_3$}				(4);
+		\path	(4)	edge	node{$x_{n-1}$}			(5);
+		\path	(5)	edge	node{$x_n$}				(6);
+	
+	\end{tikzpicture}\\
+
+	\item On peut autoriser les transitions étiquetées par des expressions rationnelles. Attention, il y a un automate complet derrière l'expression régulières.\\\\
+
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state]	(1)							{$q$};
+		\node[state]	(2)	[right of=1]			{$q'$};
+
+
+		\path	(1)	edge	node{$(a+ab)^*$}		(2);
+	
+	\end{tikzpicture}\\
+
+\end{itemize}
+
+% paragraph simplification_du_sch_ma_des_automates (end)
+
 
 % section automate_d_tats_fini (end)
+
+
+\section{Équivalence des formalismes} % (fold)
+\label{sec:_quivalence_des_formalismes}
+
+
+\paragraph{Théorème de Kleene} % (fold)
+\label{par:th_or_me_de_kleene}
+
+Soit un langage $\mathcal{L}$, on a :
+
+\begin{enumerate}
+	\item $\mathcal{L}$ est un langage rationnel, il a une valeur d'expression régulière.
+	\item $\mathcal{L}$ est un langage régulier, il engendre une grammaire régulière.
+	\item $\mathcal{L}$ est un langage reconnaissable, il est reconnu par un automate fini, ou un automate déterministe.
+\end{enumerate}
+
+% paragraph th_or_me_de_kleene (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+\begin{itemize}
+	\item $(2) \Rightarrow (1)$ : Soit une grammaire régulière $G=(\Sigma,N,P,S)$. On a vu qu'à la grammaire $G$, on peut faire correspondre une autre grammaire régulière $G'=(\Sigma,N',P',S')$ où toutes les règles sont de la forme :
+	\begin{itemize}
+		\item $X \rightarrow xY$ avec $X,Y \in N$ et $x \in \Sigma$
+		\item $X \rightarrow \epsilon$\\
+	\end{itemize}
+
+	On a donc $\mathcal{L}(G) = \mathcal{L}(G')$ et on associe à $G'$ un système d'équations régulières, où le système à une unique solution, vu que $\epsilon \not \in \mathcal{L}$. Pour tout $Y \in N'$, si :
+	\begin{itemize}
+		\item $X \rightarrow a_1X_1 \mid a_2X_2 \mid \ldots \mid a_nX_n \mid \epsilon$, l'ensemble des productions avec X à gauche, on obtient l'équation suivante : $X = a_1X_1 + a_2X_2 + \ldots + a_nX_n + \epsilon$.
+		\item $X \rightarrow a_1X_1 \mid a_2X_2 \mid \ldots \mid a_nX_n$, on obtient après simplification : $X = a_1X_1 + a_2X_2 + \ldots + a_nX_n$.\\
+	\end{itemize}
+	L'ensemble de toutes ces équations forme un système régulier. Donc le système a une unique solution et la valeur de $S'$ est une expression rationnelle du langage engendré par $G$. On a donc le langage régulier $\Rightarrow$ langage rationnel.
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+	Soit les règles de productions suivantes :\\
+	$S \rightarrow aS \mid aX \mid \epsilon$\\
+	$X \rightarrow bS$\\
+	On obtient le système d'équation suivant :\\
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		S = aS + aX + \epsilon\\
+	    	X = bS\\
+	   \end{array}
+	   \right .
+	\]
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		S = aS + abS + \epsilon\\
+	    	X = bS\\
+	   \end{array}
+	   \right .
+	\]
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		 S = (a+ab)S + \epsilon\\
+	    	X = bS\\
+	   \end{array}
+	   \right .
+	\]
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		S = (a+ab)^*\epsilon\\
+	    	X = b(a+ab)^*\\
+	   \end{array}
+	   \right .
+	\]
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		S = (a+ab)^*\\
+	    	X = b(a+ab)^*\\
+	   \end{array}
+	   \right .
+	\]
+	% paragraph exemple (end)
+
+	\item $(3) \Rightarrow (1)$ : On procède de la même manière que pour $(2) \Rightarrow (1)$. Soit un automate d'état fini $A=(\Sigma,Q,\Delta,D,F)$, on associe à $A$ le système d'équations régulier pour chaque $q \in Q$, on obtient :\\
+
+	\begin{itemize}
+		\item Si $q \in F$, on a : $\sum\limits_{(q,x,q') \in \Delta} x q' + \epsilon$.
+		\item Si $q \not \in F$, on a : $\sum\limits_{(q,x,q') \in \Delta} x q'$.
+	\end{itemize}
+
+	L'ensemble forme un système régulier, vu que $\epsilon$ n'est dans aucun facteurs des inconnues, il y a une unique solution : $\sum\limits_{q \in D}q$ est une expression régulière du langage reconnu par $A$.
+
+	\paragraph{Remarque} % (fold)
+	\label{par:remarque}
+	
+	On trouve pour chaque $q \in Q$, une expression régulière dont la valeur est $\mathcal{L}(q)$. Donc on a langage reconnaissable $\Rightarrow$ langage rationnel.
+
+	% paragraph remarque (end)
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+	Soit l'automate suivant :\\
+
+	\begin{center}
+
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+		\tikzstyle{every state}=[draw=black,text=black]
+			
+			\node[state,initial,accepting]					(1)	{$q_0$};
+			\node[state]					[right of=1]	(2)	{$q_1$};
+		
+			\path	(1)	edge	[loop above]	node{$a$}	(1)
+						edge 	[bend left]		node{$a$}	(2)
+					(2)	edge 	[bend left]		node{$b$}	(1);
+		
+		\end{tikzpicture}\\
+
+	\end{center}
+
+	On a le système d'équation suivant :\\
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		q_0 = aq_0 + aq_1 + \epsilon\\
+			q_1 = bq_0\\
+	   \end{array}
+	   \right .
+	\]
+	
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		q_0 = aq_0 + abq_0 + \epsilon\\
+			q_1 = bq_0\\
+	   \end{array}
+	   \right .
+	\]
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		q_0 = (a+ab)q_0 + \epsilon\\
+			q_1 = bq_0\\
+	   \end{array}
+	   \right .
+	\]
+
+	\[
+	   \left \{
+	   \begin{array}{cc}
+	  		q_0 = (a+ab)^*\\
+			q_1 = b(a+ab)^*\\
+	   \end{array}
+	   \right .
+	\]\\
+	% paragraph exemple (end)
+
+
+	\item $(2) \Rightarrow (3)$ : Soit une grammaire régulière $G=(\Sigma,N,P,S)$. On reprend la grammaire précédemment défini $G'$, pour la preuve $(2) \Rightarrow (1)$. On associe à $G'$, l'automate suivant : $A=(\Sigma , N' , \{(X,x,Y) \mid X\rightarrow xY \in P'\} , \{S'\} , \{X \mid X \rightarrow \epsilon \in P'\})$. On a $\mathcal{L}(A) = \mathcal{L}(G') = \mathcal{L}(G)$, donc on obtient le langage régulier $\Rightarrow$ le langage reconnaissable.
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+	Soit les règles de productions suivantes :\\
+	$S \rightarrow aS \mid aX \mid \epsilon$\\
+	$X \rightarrow bS$\\\\
+	On obtient l'automate suivant :\\
+	\begin{center}
+
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+		\tikzstyle{every state}=[draw=black,text=black]
+			
+			\node[state,initial,accepting]					(1)	{$S$};
+			\node[state]					[right of=1]	(2)	{$X$};
+		
+			\path	(1)	edge	[loop above]	node{$a$}	(1)
+						edge 	[bend left]		node{$a$}	(2)
+					(2)	edge 	[bend left]		node{$b$}	(1);
+		
+		\end{tikzpicture}\\
+
+	\end{center}
+
+	% paragraph exemple (end)
+
+
+	\item $(3) \Rightarrow (2)$ : Soit $A$ un automate, soit l'automate déterministe de $A$, tel que $Det(A) = (\Sigma,Q,\delta,q_0,F)$, on a la grammaire suivante : $G = (\Sigma , Q , \{q \rightarrow xq' \mid \delta(q,x) = q'\} \cup \{q \rightarrow \epsilon \mid q \in F\} , q_0)$. On a $\mathcal{L}(G)=\mathcal{L}(A)$, soit le langage régulier $\Rightarrow$ langage reconnaissable.
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+	
+	Soit l'automate suivant :
+
+	\begin{center}
+
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+		
+		\node[state,initial,accepting]					(1)	{$q_0$};
+		\node[state]					[right of=1]	(2)	{$q_1$};
+	
+		\path	(1)	edge	[loop above]	node{$a$}	(1)
+					edge 	[bend left]		node{$a$}	(2)
+				(2)	edge 	[bend left]		node{$b$}	(1);
+	
+	\end{tikzpicture}\\
+	
+	\end{center}
+
+	On obtient les règles de productions suivantes :\\
+	$q_0 \rightarrow aq_0 \mid aq_1 \mid \epsilon$\\
+	$q_1 \rightarrow bq_0$\\
+	Et donc on obtient la grammaire suivante : $G=(\{a,b\} , \{q_0,q_1\} , \{q_0 \rightarrow aq_0 \mid aq_1 \mid \epsilon , q_1 \rightarrow bq_0\} , \{q_0\})$\\
+
+	\item $(1) \Rightarrow (3)$ : D'après la définition du langage rationnel, on montre qu'à tout langage rationnel, on peut faire correspondre un automate :
+
+	\begin{itemize}
+		\item $\varnothing$ reconnu par l'automate $A=(\varnothing,\varnothing,\varnothing,\varnothing,\varnothing)$, qui est n'importe quel automate sans état final.
+		\item $\epsilon$ reconnu par l'automate $A=(\Sigma, \{q\} , \varnothing ,\{q\} , \{q\})$.
+		\item $\forall a \in \Sigma$, $a$ est reconnu par $A=(\Sigma , \{q_0,q_1\} , \{q_0,a,q_1\} , \{q_0\} , \{q_1\})$.
+	\end{itemize}
+
+	% paragraph exemple (end)
+
+\end{itemize}
+
+% paragraph preuve (end)
+
+
+% section _quivalence_des_formalismes (end)
 
 
 % chapter langage_relationnel (end)
