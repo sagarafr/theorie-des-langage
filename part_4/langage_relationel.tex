@@ -1486,6 +1486,72 @@ Soit un langage $\mathcal{L}$, on a :
 
 	% paragraph exemple (end)
 
+	\item $(1) \Rightarrow (2)$ : Il suffit de faire $(1) \Rightarrow (3) \Rightarrow (2)$, on a donc un langage rationnel $\Rightarrow$ un langage régulier. Les 3 formalismes équivalents permettent d'exprimer les langages rationnels. On a une méthode pour passer d'un formalisme à l'autre.\\
+	Pour passer de $(1) \Rightarrow (3)$, on a vu pour $A_1=(\Sigma,Q_1,\Delta_1,D_1,F_1)$ et $A_2=(\Sigma_2,Q_2,\Delta_2,D_2,F_2)$, que l'union est $A_1 + A_2$, la concaténation $A_1 \ldots A_2$ et l'étoile $A_1^*$.\\
+	On peut faire $A_1 \cap A_2$, qui reconnait $\mathcal{L}(A_1) \cap \mathcal{L}(A_2)$, $A_1 \cap A_2 = (\Sigma_1 \cup \Sigma_2 , Q_1 \times Q_2 , \Delta , \linebreak[4] D_1 \times D_2 , F_1 \times F_2)$ avec:\\
+	$\forall q_1 \in Q_1, \forall q_2 \in Q_2, \forall x \in \Sigma_1 \cup \Sigma_2, \Delta((q_1,q_2),x) = \Delta_1(q_1,x) \times \Delta_2(q_2,x)$.
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+
+	$A_1$ l'automate d'un nombre paire de $a$.
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+		\tikzstyle{every state}=[draw=black,text=black]
+			
+			\node[state,initial,accepting]					(1)	{$q_0$};
+			\node[state]					[right of=1]	(2)	{$q_1$};
+		
+			\path	(1)	edge	[loop above]	node{$b$}	(1)
+						edge 	[bend left]		node{$a$}	(2)
+					(2)	edge 	[bend left]		node{$b$}	(1)
+						edge	[loop above]	node{$b$}	(2);
+		
+		\end{tikzpicture}\\
+	\end{center}
+
+	$A_2$ l'automate d'un nombre paire de $b$.
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+		\tikzstyle{every state}=[draw=black,text=black]
+			
+			\node[state,initial]							(1)	{$q_0'$};
+			\node[state,accepting]			[right of=1]	(2)	{$q_1'$};
+		
+			\path	(1)	edge	[loop above]	node{$a$}	(1)
+						edge 	[bend left]		node{$b$}	(2)
+					(2)	edge 	[bend left]		node{$b$}	(1)
+						edge	[loop above]	node{$a$}	(2);
+		
+		\end{tikzpicture}\\
+	\end{center}
+
+	$A_1 \cup A_2$, l'automate qui accepte des nombres pairs de $a$ et impair de $b$.
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm]
+		\tikzstyle{every state}=[draw=black,text=black]
+			
+			\node[state,initial]									(1)	{$(q_0,q_0')$};
+			\node[state,accepting]			[right of=1]			(2)	{$(q_0,q_1')$};
+			\node[state]					[below=5cm]				(3)	{$(q_1,q_0')$};
+			\node[state]					[right of=3]			(4)	{$(q_1,q_1')$};
+
+
+		
+			\path	(1)	edge	[bend left]		node{$b$}	(2)
+						edge 	[bend left]		node{$a$}	(3)
+					(2)	edge 	[bend left]		node{$b$}	(1)
+						edge	[bend right]	node{$a$}	(4)
+					(3)	edge 	[bend left]		node{$a$}	(1)
+						edge 	[bend right]	node{$b$}	(4)
+					(4)	edge 	[bend right]	node{$b$}	(3)
+						edge 	[bend right]	node{$a$}	(2);
+		
+		\end{tikzpicture}\\
+	\end{center}
+
+
+	% paragraph exemple (end)
 
 \end{itemize}
 
