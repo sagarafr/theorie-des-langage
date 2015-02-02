@@ -1270,15 +1270,222 @@ Soit un langage $\mathcal{L}$, on a :
 	$q_1 \rightarrow bq_0$\\
 	Et donc on obtient la grammaire suivante : $G=(\{a,b\} , \{q_0,q_1\} , \{q_0 \rightarrow aq_0 \mid aq_1 \mid \epsilon , q_1 \rightarrow bq_0\} , \{q_0\})$\\
 
+	% paragraph exemple (end)
+
+
 	\item $(1) \Rightarrow (3)$ : D'après la définition du langage rationnel, on montre qu'à tout langage rationnel, on peut faire correspondre un automate :
 
 	\begin{itemize}
 		\item $\varnothing$ reconnu par l'automate $A=(\varnothing,\varnothing,\varnothing,\varnothing,\varnothing)$, qui est n'importe quel automate sans état final.
 		\item $\epsilon$ reconnu par l'automate $A=(\Sigma, \{q\} , \varnothing ,\{q\} , \{q\})$.
 		\item $\forall a \in \Sigma$, $a$ est reconnu par $A=(\Sigma , \{q_0,q_1\} , \{q_0,a,q_1\} , \{q_0\} , \{q_1\})$.
+		\item Soit $\alpha_1$ et $\alpha_2$, deux expressions rationnelles, reconnu respectivement par $A_1=(\Sigma_1 , Q_1 , \Delta_1 , D_1 , F_1)$ et $A_2=(\Sigma_2 , Q_2 , \Delta_2 , D_2 , F_2)$. Pour simplifier, on suppose : $Q_1 \cap Q_2 = \varnothing$.
+		\begin{itemize}
+			\item $\alpha_1 + \alpha_2$ reconnue par $(\Sigma_1 \cup \Sigma_2 , Q_1 \cup Q_2 , \Delta_1 \cup \Delta_2 , D_1 \cup D_2 , F1 \cup F_2)$, on le note $A_1 + A_2$ (ou $A_1 \cup A_2$).
+			\item $\alpha_1 \cdot \alpha_2$ reconnue par $(\Sigma_1 \cup \Sigma_2 , Q_1 \cup Q_2 , \Delta , D_1 , F)$, on le note $A_1 \cdot A_2$, avec $\Delta$ :\\
+			\[
+				\left \{
+				\begin{array}{cc}
+					(q,x,q') \in \Delta_1 \cup \Delta_2 \Rightarrow (q,x,q') \in \Delta\\
+					q_1 \in F_1 , q' \in D_2 , (q',x,q'') \in D_2 \Rightarrow (q,x,q'') \in \Delta\\
+				\end{array}
+				\right .
+			\]
+			Tout état final de $A_1$ joue le même rôle que tout état initial de $A_2$. $F$ est défini par :\\
+			\[
+				\left \{
+				\begin{array}{cc}
+					D_2 \cap F_2 = \varnothing \Rightarrow F=F_2\\
+					D_2 \cap F_2 \not = \varnothing \Rightarrow F=F_1 \cup F_2\\
+				\end{array}
+				\right .
+			\]
+			\item $\alpha_1^*$, noté $A^*$, reconnue par $(\Sigma_1 , Q_1 \cup \{q_0\} , \Delta , \{q_0\} , F \cup \{q_0\})$, où $q_0$ est un nouvel état et $\Delta$ défini par :
+			\[
+				\left \{
+				\begin{array}{ccc}
+					(q,x,q') \in \Delta_1 \Rightarrow (q,x,q') \in \Delta\\
+					q \in D_1\ et\ (q,x,q') \in \Delta_1 \Rightarrow (q_0,x,q') \in \Delta\\
+					q \in D_1,\ q''\in F_1,\ (q,x,q') \in \Delta_1 \Rightarrow (q'',x,q') \in \Delta\\
+				\end{array}
+				\right .
+			\]			
+		\end{itemize}
+	\end{itemize}
+
+	On peut supprimer les états inaccessibles, et donc on a le langage rationnel $\Rightarrow$ le langage reconnaissable.
+
+	\paragraph{Exemple} % (fold)
+	\label{par:exemple}
+
+	Soit l'expression régulière, $(a+ab)^*$, on va construire l'automate de l'expression régulière de manière détaillé :
+
+	\begin{itemize}
+		\item $a$ :\\
+		
+		\begin{center}
+
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]							(1)	{$q_0$};
+				\node[state,accepting]			[right of=1]	(2)	{$q_1$};
+		
+				\path	(1)	edge					node{$a$}	(2);
+		
+			\end{tikzpicture}\\
+			
+		\end{center}
+
+		\item $b$ :\\
+
+		\begin{center}
+
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]							(1)	{$q_0'$};
+				\node[state,accepting]			[right of=1]	(2)	{$q_1'$};
+		
+				\path	(1)	edge					node{$b$}	(2);
+		
+			\end{tikzpicture}\\
+			
+		\end{center}
+
+		\item $ab$ :\\
+
+		\begin{center}
+
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]							(1)	{$q_0$};
+				\node[state]					[right of=1]	(2)	{$q_1$};
+				\node[state]					[right of=2]	(3)	{$q_0'$};
+				\node[state,accepting]			[right of=3]	(4)	{$q_1'$};
+
+		
+				\path	(1)	edge					node{$a$}	(2);
+				\path	(2)	edge 	[bend right]	node{$b$}	(4);
+				\path	(3)	edge 					node{$b$}	(4);
+		
+			\end{tikzpicture}\\
+			
+		\end{center}
+
+		Simplification :\\
+
+		\begin{center}
+
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]							(1)	{$q_0$};
+				\node[state]					[right of=1]	(2)	{$q_1$};
+				\node[state,accepting]			[right of=2]	(3)	{$q_1'$};
+
+		
+				\path	(1)	edge					node{$a$}	(2);
+				\path	(2)	edge 					node{$b$}	(3);
+		
+			\end{tikzpicture}\\
+			
+		\end{center}
+
+
+		\item $a+ab$ :\\
+
+		\begin{center}
+
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]							(1)	{$q_0''$};
+				\node[state,accepting]			[right of=1]	(2)	{$q_1''$};
+
+		
+				\path	(1)	edge					node{$a$}	(2);
+		
+			\end{tikzpicture}\\
+			
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]							(1)	{$q_0$};
+				\node[state]					[right of=1]	(2)	{$q_1$};
+				\node[state,accepting]			[right of=2]	(3)	{$q_1'$};
+
+		
+				\path	(1)	edge					node{$a$}	(2);
+				\path	(2)	edge					node{$b$}	(3);
+
+		
+			\end{tikzpicture}\\
+
+		\end{center}
+
+
+		\item $(a+ab)^*$ :\\
+
+		\begin{center}
+
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]			[below left of=2]	(1)	{$q$};
+				\node[state]										(2)	{$q_0''$};
+				\node[state,accepting]			[right of=2]		(3)	{$q_1''$};
+				\node[state]					[below left of=1]	(4)	{$q_0$};
+				\node[state]					[right of=4]		(5)	{$q_1$};
+				\node[state,accepting]			[right of=5]		(6)	{$q_1'$};
+
+		
+				\path	(1)	edge	[left]			node{$a$}	(3)
+							edge	[left]			node{$a$}	(5)
+						(2)	edge					node{$a$}	(3)
+						(3)	edge 	[loop above]	node{$a$}	(3)
+							edge 					node{$a$}	(5)
+						(4)	edge 					node{$a$}	(5)
+						(5)	edge 					node{$b$}	(6)
+						(6) edge					node{$a$}	(3)
+						(6) edge	[bend left]		node{$a$}	(5);
+
+		
+			\end{tikzpicture}\\
+
+		\end{center}
+
+		Cette automate peut être simplifier de cette manière :
+
+		\begin{center}
+
+			\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+				\tikzstyle{every state}=[draw=black,text=black]
+			
+				\node[state,initial]			[below left of=2]	(1)	{$q$};
+				\node[state,accepting]			[right of=2]		(3)	{$q_1''$};
+				\node[state]					[right of=4]		(5)	{$q_1$};
+				\node[state,accepting]			[right of=5]		(6)	{$q_1'$};
+
+		
+				\path	(1)	edge	[left]			node{$a$}	(3)
+							edge	[left]			node{$a$}	(5)
+						(3)	edge 	[loop above]	node{$a$}	(3)
+							edge 					node{$a$}	(5)
+						(5)	edge 					node{$b$}	(6)
+						(6) edge					node{$a$}	(3)
+						(6) edge	[bend left]		node{$a$}	(5);
+
+		
+			\end{tikzpicture}\\
+
+		\end{center}		
+
 	\end{itemize}
 
 	% paragraph exemple (end)
+
 
 \end{itemize}
 
