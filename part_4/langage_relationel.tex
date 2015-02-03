@@ -1526,14 +1526,14 @@ Soit un langage $\mathcal{L}$, on a :
 		\end{tikzpicture}\\
 	\end{center}
 
-	$A_1 \cup A_2$, l'automate qui accepte des nombres pairs de $a$ et impair de $b$.
+	$A_1 \cup A_2$, l'automate qui accepte des nombres pairs de $a$ et impair de $b$.\\
 	\begin{center}
-		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm]
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm]
 		\tikzstyle{every state}=[draw=black,text=black]
 			
 			\node[state,initial]									(1)	{$(q_0,q_0')$};
 			\node[state,accepting]			[right of=1]			(2)	{$(q_0,q_1')$};
-			\node[state]					[below=5cm]				(3)	{$(q_1,q_0')$};
+			\node[state]					[below=2cm]				(3)	{$(q_1,q_0')$};
 			\node[state]					[right of=3]			(4)	{$(q_1,q_1')$};
 
 
