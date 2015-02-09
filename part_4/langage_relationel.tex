@@ -1558,7 +1558,86 @@ Soit un langage $\mathcal{L}$, on a :
 % paragraph preuve (end)
 
 
+\paragraph{Remarques} % (fold)
+\label{par:remarques}
+
+\begin{itemize}
+	\item Soit $A_1$ un automate déterministe complet, avec $A_1=(\Sigma,Q_1,\delta_1,q_0,F_1)$, on a $\bar{A_1}$ qui reconnaît le langage $\mathcal{L}\bar{(A_1)}$, on a $\bar{A_1}=(\Sigma,Q_1,\delta_1,q_0,\backslash{F_1})$.
+	\item $A_1 - A_2$ est le langage qui reconnaît $\mathcal{L}(A_1)\backslash{\mathcal{L}(A_2)}$.
+\end{itemize}
+
+% paragraph remarques (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+L'ensemble des langages rationnels est fermé par l'Union, la Concaténation, l'Étoile, le Complémentaire, l'Intersection et la Différence.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Il existe un automate qui reconnaît l'Intersection, le Complémentaire et la Différence.
+
+% paragraph preuve (end)
+
+
 % section _quivalence_des_formalismes (end)
+
+
+\section{Automate minimal} % (fold)
+\label{sec:automate_minimal}
+
+Ici, on ne considère que des automates déterministes complets dont tous les états sont accessibles.
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Soit un langage $L \subseteq \Sigma^*$ et $u \in \Sigma^*$, on appelle un langage résiduel de $L$ (ou quotient gauche) par rapport à $u$.\\Le langage est noté $u^{-1}L$ et est défini par $u^{-1}L = \{v \in \Sigma^* \mid uv \in L\}$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Le langage $L_{pi}$ sur $\Sigma = \{a,b\}$, le langage défini par un nombre pair de $a$ et impaire de $b$. Le langage résiduels de $L$ sont :
+
+\begin{itemize}
+	\item $\epsilon^{-1}L_{pi} = \{ u \in \Sigma^* \mid \left|u\right|_a$ pair et $ \left|u\right|_b$ impair $ \} = L_{pi}$.
+	\item $a^{-1}L_{pi} = \{ u \in \Sigma^* \mid \left|u\right|_a$ impair et $ \left|u\right|_b$ impair $ \} = L_{ii}$.
+	\item $b^{-1}L_{pi} = \{ u \in \Sigma^* \mid \left|u\right|_a$ pair et $ \left|u\right|_b$ pair $ \} = L_{pp}$.
+	\item $(ab)^{-1}L_{pi} = \{ u \in \Sigma^* \mid \left|u\right|_a$ impair et $ \left|u\right|_b$ pair $ \} = L_{ip}$.\\
+\end{itemize}
+
+$(abbba)^{-1}L_{pi} = b^{-1} L_{pi} = L_{pp}$.
+
+% paragraph exemple (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+$L$ est rationnel si et seulement si $L$ a un nombre fini de résiduels.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+\begin{itemize}
+	\item Si $L$ est rationnel alors $L$ a un nombre fini de résiduels.
+\end{itemize}
+
+% paragraph preuve (end)
+
+
+% section automate_minimal (end)
 
 
 % chapter langage_relationnel (end)
