@@ -1631,11 +1631,227 @@ $L$ est rationnel si et seulement si $L$ a un nombre fini de résiduels.
 \label{par:preuve}
 
 \begin{itemize}
-	\item Si $L$ est rationnel alors $L$ a un nombre fini de résiduels.
+	\item Démonstration du sens : Si $L$ est rationnel alors $L$ a un nombre fini de résiduels.
+	Soit un automate $A=(\Sigma,Q,\delta,q_0,F)$, qui reconnaît un langage $L$, soit $u \in \Sigma^*$, soit $q=\delta(q_0,u)$. On va montrer que $u^{-1}L = \mathcal{L}(q)$.\\
+	$v \in u^{-1}L \Leftrightarrow uv \in L$\\
+	$v \in u^{-1}L \Leftrightarrow \delta(q_0,uv) \in F$\\
+	$v \in u^{-1}L \Leftrightarrow \delta(\delta(q_0,u),v) \in F$\\
+	$v \in u^{-1}L \Leftrightarrow \delta(q,v) \in F$\\
+	$v \in u^{-1}L \Leftrightarrow v \in \mathcal{L}(q)$\\
+	Le nombre de résiduels est borné par le nombre d'états de l'automate $A$.
+
+	\item Démonstration du sens : Si $L$ a un nombre fini de résiduel, alors $L$ est rationnel.
+	Soit $L_1,L_2,\ldots,L_n$ les résiduels de $L$. On construit un automate fini déterministe complet à $n$ états : $q_1,q_2,\ldots,q_n$ tel que pour tout $i$, $\mathcal{L}(q_i)=L_i$.
+	
+	\begin{itemize}
+		\item L'état initial correspond à $\epsilon^{-1}L \Rightarrow q_0$.
+		\item Les états finaux correspondent aux résiduels des mots du langage, $u^{-1}L$ tel que $u \in L$, soit $F$.
+		\item Pour l'état $q_i$ correspond à $L_i$ ($L_i = u^{-1}L$ pour un certain $u$ donné), on a $\forall x \in \Sigma$, les transitions $\delta(q_i,x)=q'$, où $q'$ correspond au résiduel, $(ux)^{-1}L \Leftrightarrow \delta$.
+	\end{itemize}
+
+	L'automate obtenu est $A=(\Sigma ,\ \{L_1,L_2,\ldots,L_n\} ,\ \{(q,x,q') \mid q=u^{-1}L,\ x \in \Sigma,\ q'=(ux)^{-1} L\} ,\ \epsilon^{-1}L ,\ \{u^{-1} \mid u \in L\})$.
+	Cette automate est déterministe complet tel que $\mathcal{L}(A)=L$.
 \end{itemize}
 
 % paragraph preuve (end)
 
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit le langage $L_{pi}$ sur $\Sigma = \{a,b\}$, le langage défini par un nombre pair de $a$ et impaire de $b$, on obtient l'automate suivant :\\
+
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm]
+		\tikzstyle{every state}=[draw=black,text=black]
+			
+			\node[state,initial]									(1)	{$\epsilon^{-1}L_{pi} = L_{pi}$};
+			\node[state,accepting]			[right of=1]			(2)	{$a^{-1}L_{pi} = L_{ii}$};
+			\node[state]					[below=4cm]				(3)	{$b^{-1}L_{pi} = L_{pp}$};
+			\node[state]					[right of=3]			(4)	{$(ab)^{-1}L_{pi} = L_{ip}$};
+
+
+		
+			\path	(1)	edge	[bend left]		node{$b$}	(2)
+						edge 	[bend left]		node{$a$}	(3)
+					(2)	edge 	[bend left]		node{$b$}	(1)
+						edge	[bend right]	node{$a$}	(4)
+					(3)	edge 	[bend left]		node{$a$}	(1)
+						edge 	[bend right]	node{$b$}	(4)
+					(4)	edge 	[bend right]	node{$b$}	(3)
+						edge 	[bend right]	node{$a$}	(2);
+		
+		\end{tikzpicture}\\
+	\end{center}
+
+% paragraph exemple (end)
+
+On va montrer que l'automate obtenu à partir des résiduels est l'automate minimal.
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+CF VOIR FEUILLE $\Rightarrow$ IN COMING IN THE NEXT UPDATE
+
+% paragraph preuve (end)
+
+
+\paragraph{Rappels} % (fold)
+\label{par:rappels}
+
+\begin{itemize}
+	\item Si $\equiv$ est une relation d'équivalence sur un ensemble $E$ (réflexive, symétrique, transitive).
+	\item $\forall x \in E$, on note $[x]_{\equiv}$, la classe d'équivalence de $x$, tel que $\{ y \in E \mid x \equiv y\}$.
+	\item L'ensemble des classes d'équivalence est noté $\frac{E}{\equiv}$.
+	\item La relation d'équivalence sur $\Sigma^*$ est noté $\equiv_L$, tel que $\forall u,v \in \Sigma^*, u \equiv_{L} v$, si $u^{-1}L = v^{-1}L$. ($\forall w \in \Sigma^*, uw \in L \Rightarrow vw \in L$).
+	\item L'automate déterministe complet obtenu à partir des résiduels est noté $Min(L)$.\\
+	$Min(L) = (\Sigma ,\ \frac{\Sigma}{\equiv} ,\ \delta ,\ [\epsilon]_{\equiv_{L}} ,\ \{[u]_{\equiv_{L}} \mid u \in L\} )$, avec $\delta$ défini par $\forall u \in \Sigma^*,\ \forall x \in \Sigma,\ \delta([u]_{\equiv_{L}},x) = [ux]_{\equiv_{L}}$.
+\end{itemize}
+
+% paragraph rappels (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Soit 2 automates déterministes complets $A_1=(\Sigma,\ Q_1,\ \delta_1 ,\ q_1,\ F_1)$ et $A_1=(\Sigma,\ Q_2,\ \delta_2 ,\ q_2,\ F_2)$, ils sont isomorphe s'il existe une bijection $f : Q_1 \rightarrow Q_2$ tel que :
+
+\begin{itemize}
+	\item $f(q_1)=q_2$.
+	\item $\forall q_1' \in Q_1, \forall q_2' \in Q_2$, si $f(q_1')=q_2'$ alors $q_1' \in F_1 \Leftrightarrow q_2' \in F_2$.
+	\item $\forall q_1' \in Q_1, \forall q_2' \in Q_2$, si $f(q_1')=q_2'$ alors $\forall x \in \Sigma, f(\delta(q_1',x))=\delta(q_2',x)$.
+\end{itemize}
+
+% paragraph d_finition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+2 automates isomorphe reconnaissent le même langage.
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Théorème de Myhill-Nerode : Soit $L$ un langage rationnel, il existe un entier $N$ tel que :
+
+\begin{itemize}
+	\item Tout automate fini déterministe complet reconnaissant $L$ a au moins $N$ états.
+	\item S'il existe un automate déterministe complet à $N$ états, alors il est unique au nom des états près.
+\end{itemize}
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+\begin{itemize}
+	\item On peut prendre pour $N$ le nombre de résiduels.
+	\item S'il existe un automate à $N$ états, c'est $Min(L)$. $Min(L)$ joue un rôle essentiel du point de vue de l'algorithme de reconnaissance d'un mot.
+	\item Il est complet, donc pour tout mot il y a un chemin.
+	\item Il est déterministe, donc le chemin est unique.
+	\item Il est minimal, donc il utilise moins de ressources.
+\end{itemize}
+
+On a donc un automate fini déterministe complet $A=(\Sigma,Q,\delta,q_0,F)$ dont tous les états sont accessibles.
+
+% paragraph preuve (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Un mot $w$ sépare 2 états $q$ et $q'$ ($q,q' \in Q$) de l'automate si $\delta(q,w) \in F \Leftrightarrow \delta(q',w) \not \in F$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+			\tikzstyle{every state}=[draw=black,text=black]
+		
+			\node[state,initial]			[below left of=2]	(1)	{$q_0$};
+			\node[state,accepting]			[right of=2]		(3)	{$q_1$};
+			\node[state]					[right of=4]		(5)	{$q_2$};
+			\node[state,accepting]			[right of=5]		(6)	{$q_3$};
+	
+			\path	(1)	edge	[left]			node{$a$}	(3)
+						edge	[left]			node{$a$}	(5)
+					(3)	edge 	[loop above]	node{$a$}	(3)
+						edge 					node{$a$}	(5)
+					(5)	edge 					node{$b$}	(6)
+					(6) edge					node{$a$}	(3)
+					(6) edge	[bend left]		node{$a$}	(5);
+	
+		\end{tikzpicture}\\
+	\end{center}	
+
+\begin{itemize}
+	\item $\epsilon$ sépare $q_1$ et $q_2$ car $\delta(q_1,\epsilon) \in F$ et $\delta(q_2,\epsilon) \not \in F$.
+	\item $aa$ sépare $q_0$ et $q_3$ car $\delta(q_0,aa) \not \in F$ et $\delta(q_3,aa) \in  F$.
+	\item $a$ ne sépare pas $q_0$ et $q_2$ car $\delta(q_0,a) \in F$ et $\delta(q_2,a) \in F$.
+\end{itemize}
+
+% paragraph exemple (end)
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+2 états $q,q' \in Q$ sont inséparable si $\forall w \in \Sigma^*$, $w$ ne sépare pas $q$ et $q'$.
+
+% paragraph d_finition (end)
+
+Cette relation est une relation d'équivalence, on la note $\equiv$, c'est l'équivalence de Nerode, c'est-à-dire $q \equiv q'$, si et seulement si $\forall w \in \Sigma^*, \delta(q,w) \in F \Leftrightarrow \delta(q',w) \in F$.
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+2 états $q,q' \in Q$ sont inséparable si et seulement si $\mathcal{L}(q) = \mathcal{L}(q')$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Trivial par définition des langages et des états inséparables.
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Si $q \equiv q'$ alors $\forall x \in \Sigma, \delta(q,x) \equiv \delta(q',x)$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Preuve par l'absurde.\\
+Supposons $\delta(q,x) \not \equiv \delta(q',x)$, donc $\exists w \in \Sigma^*$, qui sépare $\delta(q,x)$ et $\delta(q',x)$.\\
+$\delta(\delta(q,x),w)$ et $\delta(\delta(q',x),w)$, l'un est final et l'autre ne l'est pas. Or $\delta(\delta(q,x),w) = \delta(q,xw)$, $\delta(\delta(q',x),w)=\delta(q',xw)$, donc $xw$ sépare $q$ et $q'$, contradiction car $q \equiv q'$.
+
+% paragraph preuve (end)
+
+
+$[\delta(q,x)]_{\equiv}$ est indépendante du $q \in [q]_{\equiv}$. On appelle automate quotient de $A$, l'automate noté $\frac{A}{\equiv}$, défini par $\frac{A}{\equiv}=(\Sigma,\frac{Q}{\equiv},\delta_{\equiv},[q_0]_{\equiv},F_{\equiv})$, avec :\\
+
+\begin{itemize}
+	\item $F_{\equiv} = \{[q]_{\equiv} \mid q \in F\}$.
+	\item $\delta_{\equiv} : \frac{Q}{\equiv} \times \Sigma \rightarrow \frac{Q}{\equiv}, \forall [q]_{\equiv} \in \frac{Q}{\equiv}, \forall x \in \Sigma, \delta_{\equiv}([q]_{\equiv},x)=[\delta(q,x)]_{\equiv}$.\\
+\end{itemize}
 
 % section automate_minimal (end)
 
