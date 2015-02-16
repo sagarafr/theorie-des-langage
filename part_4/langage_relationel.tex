@@ -1853,6 +1853,210 @@ $[\delta(q,x)]_{\equiv}$ est indépendante du $q \in [q]_{\equiv}$. On appelle a
 	\item $\delta_{\equiv} : \frac{Q}{\equiv} \times \Sigma \rightarrow \frac{Q}{\equiv}, \forall [q]_{\equiv} \in \frac{Q}{\equiv}, \forall x \in \Sigma, \delta_{\equiv}([q]_{\equiv},x)=[\delta(q,x)]_{\equiv}$.\\
 \end{itemize}
 
+
+\paragraph{Rappel} % (fold)
+\label{par:rappel}
+
+Soit l'automate quotient, un automate déterministe, $\frac{A}{\equiv}=(\Sigma,\frac{Q}{\equiv},\delta_{\equiv},[q_0]_{\equiv},F_{\equiv})$, avec $F_{\equiv}=\{[q]_{\equiv} \mid q \in F\}$ et $\delta_{\equiv}=\{[q]_{\equiv},x\}=[\delta(q,x)]$.
+
+% paragraph rappel (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Les automates $A$ et $\frac{A}{\equiv}$ sont équivalents, c'est-à-dire $\mathcal{L}(A)=\mathcal{L}(\frac{A}{\equiv})$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+\begin{itemize}
+	\item $\mathcal{L}(A) \subseteq \mathcal{L}(\frac{A}{\equiv})$ ?\\
+	Soit $w \in \mathcal{L}(A)$, $\delta(q_0,w) \in F$, comme on a $\delta_{\equiv}([q_0]_{\equiv},w) = [\delta(q_0,w)]_{\equiv}$, donc $\delta_{\equiv}([q_0]_{\equiv},w) \in F_{\equiv}$ et $w \in \mathcal{L}(\frac{A}{\equiv})$.
+	\item $\mathcal{L}(\frac{A}{\equiv}) \subseteq \mathcal{L}(A)$ ?\\
+	$w \in \mathcal{L}(\frac{A}{\equiv})$ donc $\delta_{\equiv}([q_0]_{\equiv},w) \in F_{\equiv}$. Soit $q'=\delta(q_0,w), q'\in [q]_{\equiv}$, la classe d'équivalence d'un état final ne contient pas que des états finaux, donc $q'$ est final donc $w \in \mathcal{L}(A)$.
+\end{itemize}
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+$\frac{A}{\equiv}$ est complet.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+$\delta$ est total, $\forall q \in Q$, $\forall x \in \Sigma$, $\delta(q,x)$ est défini donc $\delta_{\equiv}=([q]_{\equiv},x) = [\delta(q,x)]_{\equiv}$ est également défini.
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Soit $u,v \in \Sigma^*$, $u \equiv_{\mathcal{L}(A)} v \Leftrightarrow \delta(q_0,u) \equiv \delta(q_0,v)$.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+$u \equiv_{\mathcal{L}(A)} v \Leftrightarrow \forall w \in \Sigma^*, (uw \in \mathcal{L}(A) \Leftrightarrow vw \in \mathcal{L}(A))$
+
+$\forall w \in \Sigma^*, uw \in \mathcal{L}(A) \Leftrightarrow \delta(q_0,uw) \in F \Leftrightarrow \delta(\delta(q_0,u),w) \in F$.\\
+$\forall w \in \Sigma^*, vw \in \mathcal{L}(A) \Leftrightarrow \delta(q_0,vw) \in F \Leftrightarrow \delta(\delta(q_0,v),w) \in F$.\\
+$\delta(q_0,u) \equiv \delta(q_0,v)$
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+L'application $\Lambda$ : $\frac{\Sigma^*}{\equiv_{\mathcal{L}(A)}} \rightarrow \frac{Q}{\equiv}$ défini par $[u]_{\equiv_{\mathcal{L}(A)}} \mapsto [\delta(q_0,u)]_{\equiv}$ est bijective.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+On rappel que tous les états sont accessibles.
+
+\begin{itemize}
+	\item $\Lambda$ est bien défini, car $u \equiv_{\mathcal{L}(A)} v \Rightarrow \delta(q_0,u) = \delta(q_0,v)$.
+	\item $\Lambda$ est injective, $\delta(q_0,u) \equiv \delta(q_0,v) \Rightarrow u \equiv_{\mathcal{L}(A)} v$.
+	\item $\Lambda$ est surjective, car tous les états de $q$ est accessible, il existe $u \in \Sigma^*$, $q=\delta(q_0,u)$.
+\end{itemize}
+
+% paragraph preuve (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+$\frac{A}{\equiv}$ et $Min(\mathcal{L}(A))$ sont isomorphes.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+$\frac{A}{\equiv}$ reconnaît $\mathcal{L}(A)$ et $\frac{A}{\equiv}$ a le même nombre d'états que $Min(\mathcal{L}(A))$. $\Lambda$ est le renommage qui permet de poser d'un état de $Min(\mathcal{L}(A))$ à un état de $\frac{A}{\equiv}$.
+
+% paragraph preuve (end)
+
+
+Comment calculer les $[q]_{\equiv}$ ?
+
+
+\paragraph{Définition} % (fold)
+\label{par:d_finition}
+
+Soit pour tout $i \in \mathbb{N}$, la relation d'équivalence $\equiv_i$ sur $Q$ définie par $\forall q,q' \in Q$, $q \equiv_i q'$, si $q$ et $q'$ inséparables par tous les mots de longueur inférieur ou égale à $i$.
+On peut remarque que $\equiv$ est plus finie que $\equiv_i$.
+
+% paragraph d_finition (end)
+
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+S'il existe $i$ tel que $\equiv_i\ =\ \equiv_{i+1}$ alors :
+\begin{itemize}
+	\item $\forall j > i$, $\equiv_i\ =\ \equiv_j$.
+	\item $\equiv_i\ =\ \equiv$.
+\end{itemize}
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+\begin{itemize}
+	\item $\forall j > i \equiv_i\ =\ \equiv_j\ \Rightarrow$ facile par récurrence sur $j$.
+	\item On veut montrer que $q\ \equiv_i\ q' \Rightarrow q\ \equiv\ q'$.
+	\item Si $\left|w\right| \leq i$, alors $q\ \not \equiv_i \ q'$.
+	\item Si $\left|w\right| > i$, alors $q\ \not \equiv_{\left|w\right|} \ q'$, mais comme $\forall j > i\ \equiv_i\ =\ \equiv_j$, on a $q\ \not \equiv_i\ q'$.
+\end{itemize}
+
+% paragraph preuve (end)
+
+Il suffit de calculer les $\frac{Q}{\equiv_i}$ jusqu'à atteindre un point fixe qui est $\frac{Q}{\equiv}$. Cette algorithme de calcul $Min(A)$ est l'algorithme de Moore. Sa complexité est de $\mathcal{O}(\left|\Sigma\right| \times \left|Q\right|^2)$, en moyenne on a une bonne complexité de l'ordre de $\mathcal{O}(\left|Q\right|\log({\left|Q\right|}))$, voir si on l'implémente correctement, on a une complexité de $\mathcal{O}(\left|Q\right|\log( \log({\left|Q\right|}) ))$.
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+			\tikzstyle{every state}=[draw=black,text=black]
+		
+			\node[state,initial]								(1)	{$1$};
+			\node[state]					[right=2cm]			(2)	{$2$};
+			\node[state,accepting]			[right of=2]		(3)	{$3$};
+			\node[state,accepting]			[below=2cm]			(4)	{$4$};
+			\node[state,accepting]			[below=4cm]			(5)	{$5$};
+			\node[state]					[right of=5]		(6)	{$6$};
+			\node[state]					[right of=4]		(7)	{$7$};
+			
+			\path	(1)	edge					node{$a$}	(2)
+						edge					node{$b$}	(4)
+					(2) edge	[bend left]		node{$a$}	(3)
+						edge					node{$b$}	(7)
+					(3)	edge	[bend left]		node{$b$}	(2)
+						edge					node{$a$}	(7)
+					(4)	edge					node{$b$}	(7)
+						edge					node{$a$}	(5)
+					(5)	edge					node{$a$}	(7)
+					(6)	edge 	[bend left]		node{$a$}	(5)
+						edge 	[bend right]	node{$b$}	(5)
+						edge					node{$a$}	(7)
+					(7)	edge 	[loop right]	node{$a,b$}	(7);
+	
+		\end{tikzpicture}\\
+	\end{center}
+
+	\begin{tabular}{l|l|l}
+	\hline
+	$\equiv_0$ & $\equiv_1$ & $\equiv_2$\\
+	\hline
+	% \hline
+	% \multicolumn{7}{|c|}
+	\end{tabular}
+
+\begin{tabular}{|l|l|l|}
+  \hline
+  \multicolumn{3}{|c|}{Membres de l'équipe} \\
+  \hline
+  Gardien de but & GK & Paul Robinson \\ \hline
+  \multirow{4}{*}{Défenseurs} & LB & Lucus Radebe \\
+    & DC & Michael Duberry \\
+    & DC & Dominic Matteo \\
+    & RB & Didier Domi \\ \hline
+  \multirow{3}{*}{Milieux de terrain } & MC & David Batty \\
+    & MC & Eirik Bakke \\
+    & MC & Jody Morris \\ \hline
+  Avant & FW & Jamie McMaster \\ \hline
+  \multirow{2}{*}{Attaquants} & ST & Alan Smith \\
+    & ST & Mark Viduka \\
+ \hline
+\end{tabular}
+
+% paragraph exemple (end)
+
+
 % section automate_minimal (end)
 
 
