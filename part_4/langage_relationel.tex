@@ -1998,6 +1998,7 @@ Il suffit de calculer les $\frac{Q}{\equiv_i}$ jusqu'à atteindre un point fixe 
 
 \paragraph{Exemple} % (fold)
 \label{par:exemple}
+	Soit l'automate suivant, minimiser l'automate.
 
 	\begin{center}
 		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
@@ -2028,36 +2029,226 @@ Il suffit de calculer les $\frac{Q}{\equiv_i}$ jusqu'à atteindre un point fixe 
 		\end{tikzpicture}\\
 	\end{center}
 
-	\begin{tabular}{l|l|l}
-	\hline
-	$\equiv_0$ & $\equiv_1$ & $\equiv_2$\\
-	\hline
-	% \hline
-	% \multicolumn{7}{|c|}
-	\end{tabular}
+	\begin{center}
+	
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			\multicolumn{1}{|c}{$\equiv_0$} & \multicolumn{2}{|c}{$\equiv_1$} & \multicolumn{4}{|c|}{$\equiv_2$} \\
+			\hline
+			$\epsilon$ & $a$ & $b$ & $aa$ & $ab$ & $ba$ & $bb$ \\
+			\hline
+			1 & 2 & \tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{4}; & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} \\
+			2 & \tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{3}; & 7 & 7 & 2 & 7 & 7 \\
+			\tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{3}; & 7 & 2 & 7 & 7 & \tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{3}; & 7 \\
+			\tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{4}; & \tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{5}; & 7 & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} \\
+			\tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{5}; & 7 & 6 & 7 & 7 & \tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{5}; & 7 \\
+			6 & \tikz\node[circle,draw,inner sep=1pt,outer sep=1pt]{5}; & 7 & 7 & 6 & 7 & 7 \\
+			7 & 7 & 7 & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} \\
+			\hline
+			\multicolumn{1}{|c}{$\{1,2,6,7\}\ \{3,4,5\}$} & \multicolumn{2}{|c}{$\{1\}\ \{7\}\ \{2,6\} \{3,5\} \{4\}$} & \multicolumn{4}{|c|}{$\{1\}\ \{7\}\ \{4\}\ \{2,6\}\ \{3,5\}$} \\
+			\hline
+		\end{tabular}\\
+		
+	\end{center}
+	Grâce au tableau précédent, on obtient l'automate suivant :\\
+	\begin{center}
+		\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+			\tikzstyle{every state}=[draw=black,text=black]
+		
+			\node[state,initial]										(1)	{$\{1\}$};
+			\node[state]					[right=2cm]					(2)	{$\{2,6\}$};
+			\node[state,accepting]			[below=2cm]					(3)	{$\{4\}$};
+			\node[state,accepting]			[right of=3]				(4)	{$\{3,5\}$};
+			\node[state]					[right of=4,below=2cm]		(5)	{$\{7\}$};
+			
+			\path	(1)	edge					node{$a$}	(2)
+						edge					node{$b$}	(3)
+					(2) edge	[bend left]		node{$b$}	(5)
+						edge					node{$a$}	(4)
+					(3)	edge					node{$b$}	(5)
+						edge					node{$a$}	(4)
+					(4)	edge	[bend left]		node{$b$}	(2)
+						edge					node{$a$}	(5)
+					(5)	edge	[loop right]	node{$a,b$}	(5);
+	
+		\end{tikzpicture}\\
+	\end{center}
+% paragraph exemple (end)
 
-\begin{tabular}{|l|l|l|}
-  \hline
-  \multicolumn{3}{|c|}{Membres de l'équipe} \\
-  \hline
-  Gardien de but & GK & Paul Robinson \\ \hline
-  \multirow{4}{*}{Défenseurs} & LB & Lucus Radebe \\
-    & DC & Michael Duberry \\
-    & DC & Dominic Matteo \\
-    & RB & Didier Domi \\ \hline
-  \multirow{3}{*}{Milieux de terrain } & MC & David Batty \\
-    & MC & Eirik Bakke \\
-    & MC & Jody Morris \\ \hline
-  Avant & FW & Jamie McMaster \\ \hline
-  \multirow{2}{*}{Attaquants} & ST & Alan Smith \\
-    & ST & Mark Viduka \\
- \hline
-\end{tabular}
+
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Soit l'automate $A=(\Sigma,Q,\delta,q_0,F)$ déterministe et complet dont tous les états sont accessibles, alors:
+\begin{itemize}
+	\item L'ensemble des résiduels de $\mathcal{L}(A)$ est exactement $\{\mathcal{L}(q) \mid q \in Q\}$.
+	\item $\mathcal{L}(q_0) = \mathcal{L}(A) = \epsilon^-1 \mathcal{L}(A)$
+\end{itemize}
+
+% paragraph proposition (end)
+
+
+\paragraph{Algorithme de Brzozowski} % (fold)
+\label{par:algorithme_de_brzozowski}
+
+On part d'un automate quelconque pour arriver sur un automate minimal, grâce à des déterminations et des transpositions. L'algorithme est le suivant :
+\begin{enumerate}
+	\item Transposer l'automate.
+	\item Déterminiser l'automate.
+	\item Transposer l'automate.
+	\item Déterminiser l'automate.
+\end{enumerate}
+Cependant sa complexité est de $\mathcal{O}(2^{\left|Q\right|})$.
+
+% paragraph algorithme_de_brzozowski (end)
+
+
+\paragraph{Algorithme de Hopcraft} % (fold)
+\label{par:algorithme_de_hopcraft}
+
+Cette algorithme est meilleur que celui de Moore dans le pire des cas. Sa complexité est de $\mathcal{O}(\left|\Sigma\right| \times	\left|Q\right| \log (\left|Q\right|))$
+
+% paragraph algorithme_de_hopcraft (end)
+
+
+% section automate_minimal (end)
+
+
+\section{Lemme d'itération} % (fold)
+\label{sec:lemme_d_it_ration}
+
+
+\paragraph{Théorème - Lemme d'itération} % (fold)
+\label{par:th_or_me_lemme_d_it_ration}
+
+(ou Lemme de l'étoile)\\ Soit $L$ un langage rationnel sur un alphabet $\Sigma$. Il existe un entier $N > 0$, tel que pour tout mot $m \in L$, $\left|m\right| \geq  N$, il existe $u, v, w \in \Sigma^*$, tel que $m=uvw$, avec $v \not = \epsilon$ ($\left|v\right| > 0$) tel que pour tout $i \in \mathbb{N}$, $uv^iw \in L$.
+
+% paragraph th_or_me_lemme_d_it_ration (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Soit $L$ un langage rationnel, soit $A=(\Sigma,Q,\Delta,D,F)$ tel que $\mathcal{L}(A) = L$. Soit $N=\left|Q\right|$, montrons que $\forall m \in L$, $\left|m\right| \geq N$, il existe $u,v,w$ avec $m=uvw$ et $\forall i \geq 0, uv^iw \in L$. Soit $\left|m\right| = k$ ($k > N$), tel que $m=x_1 x_2 \ldots x_k$ (avec les $x_i \in \Sigma$), il existe un chemin dans $A$, avec $q_0 \in D$ et $q_k \in F$ :\\
+
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state,initial]			(1)							{$q_0$};
+		\node[state]					(2)	[right of=1]			{$q_1$};
+		\node[state]					(3)	[right of=2]			{$q_2$};
+		\node[state]					(4)	[right of=3,draw=white]	{$\ldots$};
+		\node[state]					(5)	[right of=4]			{$q_{k-1}$};
+		\node[state,accepting]			(6)	[right of=5]			{$q_k$};
+
+
+		\path	(1)	edge	node{$x_1$}				(2);
+		\path	(2)	edge	node{$x_2$}				(3);
+		\path	(3)	edge	node{$x_3$}				(4);
+		\path	(4)	edge	node{$x_{k-1}$}			(5);
+		\path	(5)	edge	node{$x_k$}				(6);
+	
+	\end{tikzpicture}\\
+
+Comme il y a $k+1$ états dans le chemin et $k \geq N = \left|Q\right|$, les $q_i$ ne sont pas tous distincts, il existe $a,b$ avec $a < b$ tel que $q_a = q_b$. Soit $u=x_1 x_2 \ldots x_a$, $v=x_{a+1} x_{a+2} \ldots x_b$, $w=x_{b+1} x_{b+2} \ldots x_k$, on a $v \not = \epsilon$, car $a < b$. Soit $i \in \mathbb{N}$, $uv^iw$ est accepté, avec $q_0 \in D$ et $q_k \in F$, car :\\
+
+\begin{center}
+	
+	\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.8cm]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+		\node[state,initial]			(1)								{$q_0$};
+		\node[state]					(2)		[right of=1,draw=white]	{$\ldots$};
+		\node[state]					(3)		[right of=2]			{$q_a$};
+		\node[state]					(4)		[right of=3]			{$q_{a+1}$};
+		\node[state]					(5)		[right of=4,draw=white]	{$\ldots$};
+		\node[state]					(6)		[right of=5]			{$q_b$};
+		\node[state]					(7)		[below of=6,below=2cm]	{$q_{a+1}$};
+		\node[state]					(8)		[left of=7,draw=white]	{$\ldots$};
+		\node[state]					(9)		[left of=8]				{$q_b$};
+		\node[state]					(10)	[left of=9]				{$q_{b+1}$};
+		\node[state]					(11)	[left of=10,draw=white]	{$\ldots$};
+		\node[state,accepting]			(12)	[left of=11]			{$q_k$};
+
+		% \node[state]					(7)	[right of=6]			{$q_k$};
+		% \node[state]					(8)	[below of=7]			{}
+
+		\path	(1)	edge	node{$x_1$}					(2);
+		\path	(2)	edge	node{$x_a$}					(3);
+		\path	(3)	edge	node{$x_{a+1}$}				(4);
+		\path	(4)	edge	node{$x_{a+2}$}				(5);
+		\path	(5)	edge	node{$x_b$}					(6);
+		\path	(6)	edge	node{$x_a$}					(7);
+		\path	(7)	edge	node{$x_{a+1}$}				(8);
+		\path	(8)	edge	node{$x_b$}					(9);
+		\path 	(9)	edge 	node{$x_{b+1}$}				(10);
+		\path 	(10)edge	node{$x_{b+2}$}				(11);
+		\path 	(11)edge	node{$x_k$}					(12);
+		\node 	(A)[draw=black, fit=(1)(3), inner sep=0.65cm,label={below:u}]{};
+		\node 	(B)[draw=red, fit=(4)(6), inner sep=0.65cm,label={below:v}]{};
+		\node 	(C)[draw=black, fit=(7)(9), inner sep=0.65cm,label={below:v}]{};
+		\node 	(B)[draw=red, fit=(10)(12), inner sep=0.65cm,label={below:w}]{};
+
+	\end{tikzpicture}\\
+
+\end{center}
+
+% paragraph preuve (end)
+
+
+\paragraph{Quelques remarques} % (fold)
+\label{par:quelques_remarques}
+
+\begin{itemize}
+	\item Si on prend $i=0$, on a $uw \in L$.
+	\item Si $L$ est fini, on prend $N$ plus grand que le plus grand mot du langage.
+	\item S'il existe un mot plus grand que $N$ alors $L$ est infini.
+	\item Dans le lemme on peut ajouter la condition $\left|uv\right| < N$ (en particulier $\left|v\right| < N$).\\
+\end{itemize}
+
+
+% paragraph quelques_remarques (end)
+
+Pour montrer qu'un langage n'est pas rationnel on peut utiliser la contraposée du lemme d'itération.
+
+
+\paragraph{Exemple} % (fold)
+\label{par:exemple}
+
+Soit $L=\{\left|a^nb^n\right| \mid n \in \mathbb{N}\}$, on montre par l'absurde que $L$ n'est pas rationnel. On suppose $L$ rationnel, d'après le lemme, il existe un entier $N > 0$, tel que pour tout mot $m \in L$, $\left|m\right| \geq  N$, il existe $u, v, w \in \Sigma^*$, tel que $m=uvw$, avec $v \not = \epsilon$ ($\left|v\right| > 0$) tel que pour tout $i \in \mathbb{N}$, $uv^iw \in L$.\\
+Le mot $a^Nb^N \in L$, il existe $u,v,w$ tel que $uvw=a^Nb^N$ avec $\left|v\right| > 0$.
+
+\begin{itemize}
+	\item Si $\left|uv\right| \leq N$, alors $u=a^j$, $v=a^k$, $w=a^{N-j-k}b^n$, avec $k \not = 0$. Pour tout $i \in \mathbb{N}$, $uvw \in L$, prenons $i=0$, $uw=a^{N-j-k}b^N \not \in L$.
+	\item Si $\left|uv\right| > N$, alors :
+	\begin{itemize}
+		\item $u=a^j$, $v=a^{N-j}b^k$, $w=b^{N-k}$. Pour tout $i \in \mathbb{N}$, $uv^iw \in L$. Prenons $i=2$, $uv^2w = a^j a^{N-j} b^k a^{N-j} b^k b^{N-k} \not \in L$.
+		\item $u=a^N b^j$, $v=b^k$, $w=b^{N-j-k}$, $uw = a^N b^{N*k} \not \in L$.
+	\end{itemize}
+\end{itemize}
+
+Donc $L$ n'est pas rationnel.
 
 % paragraph exemple (end)
 
 
-% section automate_minimal (end)
+\paragraph{Proposition} % (fold)
+\label{par:proposition}
+
+Soit $A=(\Sigma,Q,\Delta,D,F)$, $A$ accepte le mot $m$ tel que $m \geq \left|Q\right|$, si et seulement si $\mathcal{L}(A)$ est infini.
+
+% paragraph proposition (end)
+
+
+\paragraph{Preuve} % (fold)
+\label{par:preuve}
+
+Évident par le lemme d'itération.
+
+% paragraph preuve (end)
+
+
+% section lemme_d_it_ration (end)
 
 
 % chapter langage_relationnel (end)
